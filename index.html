@@ -1,0 +1,984 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no, viewport-fit=cover">
+    <title>极速躲避 | Race Dash</title>
+    <style>
+        :root {
+            --primary: #ff3355;
+            --primary-glow: rgba(255, 51, 85, 0.6);
+            --bg-dark: #0a0a0f;
+            --glass: rgba(0, 0, 0, 0.85);
+            --text: #ffffff;
+            --road-width: 280px;
+        }
+
+        @media (max-width: 600px) {
+            :root { --road-width: 75vw; }
+        }
+
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            font-family: 'Segoe UI', 'ZCOOL KuaiLe', cursive, system-ui, sans-serif;
+            -webkit-tap-highlight-color: transparent;
+            user-select: none;
+            image-rendering: -webkit-optimize-contrast;
+            image-rendering: crisp-edges;
+        }
+
+        html, body {
+            width: 100vw;
+            height: 100vh;
+            overflow: hidden;
+            background: var(--bg-dark);
+            color: var(--text);
+        }
+
+        #app {
+            width: 100vw;
+            height: 100vh;
+            position: relative;
+            background: #000;
+        }
+
+        .dynamic-bg {
+            position: absolute;
+            inset: 0;
+            background: radial-gradient(circle at center, #1a0a0f 0%, #05050a 100%);
+            z-index: 1;
+        }
+
+        .page {
+            position: absolute;
+            inset: 0;
+            display: none;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            z-index: 20;
+        }
+
+        .page.active { display: flex; }
+
+        .btn {
+            padding: 12px 36px;
+            border-radius: 16px;
+            border: 3px solid #000;
+            background: var(--primary);
+            color: white;
+            font-size: 1.1rem;
+            font-weight: 900;
+            cursor: pointer;
+            box-shadow: 4px 4px 0px #000;
+            transition: all 0.1s;
+            margin: 10px;
+            text-transform: uppercase;
+            letter-spacing: 1px;
+        }
+
+        .btn:active {
+            transform: translate(2px, 2px);
+            box-shadow: 2px 2px 0px #000;
+        }
+
+        .game-title {
+            font-size: clamp(3rem, 10vw, 5.5rem);
+            font-weight: 900;
+            color: #fff;
+            text-shadow: 6px 6px 0px var(--primary), 10px 10px 0px #000;
+            margin-bottom: 2.5rem;
+            text-align: center;
+            font-style: italic;
+        }
+
+        .start-car-icon {
+            font-size: 4rem;
+            margin-bottom: 1rem;
+            filter: drop-shadow(0 0 10px var(--primary));
+            animation: bounce 1s infinite alternate ease-in-out;
+        }
+
+        @keyframes bounce {
+            from { transform: translateY(0) rotate(-2deg); }
+            to { transform: translateY(-15px) rotate(2deg); }
+        }
+
+        .rule-container {
+            background: var(--glass);
+            padding: 30px;
+            border-radius: 28px;
+            width: min(92%, 440px);
+            border: 3px solid var(--primary);
+            box-shadow: 0 0 30px rgba(255, 51, 85, 0.2), 10px 10px 0px #000;
+            position: relative;
+            overflow: hidden;
+            display: flex;
+            flex-direction: column;
+            gap: 20px;
+        }
+
+        .rule-title {
+            color: var(--primary);
+            font-size: 2rem;
+            text-align: center;
+            font-weight: 900;
+            text-transform: uppercase;
+            letter-spacing: 2px;
+            margin-bottom: 10px;
+            text-shadow: 0 0 10px var(--primary-glow);
+        }
+
+        .rule-section {
+            background: rgba(255, 255, 255, 0.05);
+            padding: 15px;
+            border-radius: 16px;
+            border-left: 4px solid var(--primary);
+        }
+
+        .rule-item {
+            display: flex;
+            align-items: flex-start;
+            gap: 10px;
+            margin-bottom: 8px;
+            font-size: 0.95rem;
+            line-height: 1.4;
+            font-weight: 600;
+        }
+
+        .rule-item span { color: var(--primary); }
+
+        .disclaimer-box {
+            margin-top: 10px;
+            padding-top: 15px;
+            border-top: 1px solid rgba(255, 255, 255, 0.1);
+            color: rgba(255, 255, 255, 0.4);
+            font-size: 0.75rem;
+            line-height: 1.6;
+            text-align: center;
+        }
+
+        .disclaimer-title {
+            font-weight: 900;
+            margin-bottom: 5px;
+            color: rgba(255, 255, 255, 0.6);
+            display: block;
+        }
+
+        .char-grid {
+            display: grid;
+            grid-template-columns: repeat(4, 1fr);
+            gap: 12px;
+            width: min(95%, 480px);
+            padding: 15px;
+            margin-bottom: 20px;
+            background: rgba(255, 255, 255, 0.05);
+            border-radius: 24px;
+            border: 3px solid rgba(255, 255, 255, 0.1);
+        }
+
+        .char-card {
+            aspect-ratio: 1/1;
+            background: rgba(0, 0, 0, 0.3);
+            border-radius: 16px;
+            border: 3px solid transparent;
+            cursor: pointer;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            transition: all 0.2s;
+            overflow: hidden;
+            position: relative;
+        }
+
+        .char-card img {
+            width: 85%;
+            height: 85%;
+            object-fit: contain;
+            pointer-events: none;
+            filter: drop-shadow(0 0 3px #fff);
+        }
+
+        .char-card.selected {
+            border-color: var(--primary);
+            background: rgba(255, 51, 85, 0.15);
+            transform: scale(1.1);
+            box-shadow: 0 0 20px var(--primary-glow);
+            z-index: 2;
+        }
+
+        #gameCanvas {
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            z-index: 5;
+        }
+
+        .hud {
+            position: absolute;
+            top: 20px;
+            left: 20px;
+            z-index: 30;
+            pointer-events: none;
+        }
+
+        .hud-item {
+            background: var(--glass);
+            padding: 8px 16px;
+            border-radius: 12px;
+            margin-bottom: 8px;
+            font-size: 0.9rem;
+            font-weight: 900;
+            border: 2px solid var(--primary);
+            color: #fff;
+            display: flex;
+            align-items: center;
+            gap: 8px;
+            min-width: 140px;
+        }
+
+        .health-container {
+            width: 80px;
+            display: inline-block;
+            letter-spacing: 2px;
+            color: #ff3355;
+            text-align: left;
+        }
+
+        .top-right {
+            position: absolute;
+            top: 20px;
+            right: 20px;
+            z-index: 30;
+            display: flex;
+            gap: 10px;
+        }
+
+        .icon-btn {
+            width: 46px;
+            height: 46px;
+            border-radius: 14px;
+            background: var(--glass);
+            border: 2px solid var(--primary);
+            color: white;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            cursor: pointer;
+            font-weight: 900;
+            font-size: 0.9rem;
+        }
+
+        .overlay {
+            position: fixed;
+            inset: 0;
+            background: rgba(0, 0, 0, 0.9);
+            display: none;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            z-index: 100;
+            backdrop-filter: blur(8px);
+        }
+
+        .modal {
+            background: #1a0a0f;
+            padding: 30px;
+            border-radius: 24px;
+            border: 4px solid var(--primary);
+            text-align: center;
+            width: min(90%, 340px);
+            box-shadow: 10px 10px 0px #000;
+        }
+
+        .modal h2 {
+            margin-bottom: 20px;
+            color: var(--primary);
+            font-weight: 900;
+        }
+
+        #countdown {
+            position: absolute;
+            top: 45%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+            font-size: 8rem;
+            font-weight: 900;
+            z-index: 40;
+            color: #fff;
+            text-shadow: 0 0 40px var(--primary);
+            pointer-events: none;
+            display: none;
+        }
+
+        .footer {
+            position: fixed;
+            bottom: 15px;
+            width: 100%;
+            text-align: center;
+            color: rgba(255, 255, 255, 0.4);
+            font-size: 0.7rem;
+            z-index: 50;
+            pointer-events: none;
+        }
+    </style>
+</head>
+<body>
+
+    <div id="app">
+        <div class="dynamic-bg"></div>
+
+        <!-- 页面 1: 开始 -->
+        <div id="startPage" class="page active">
+            <div class="start-car-icon">🏎️</div>
+            <h1 class="game-title">RACE DASH</h1>
+            <button class="btn" onclick="showPage('rulePage')" data-t="start">开始游戏</button>
+            <div class="top-right">
+                <div class="icon-btn" onclick="toggleLang()">中/EN</div>
+            </div>
+        </div>
+
+        <!-- 页面 2: 说明 -->
+        <div id="rulePage" class="page">
+            <div class="rule-container">
+                <h2 class="rule-title" data-t="rule_title">【游戏说明】</h2>
+                
+                <div class="rule-section">
+                    <div class="rule-item"><span>🏎️</span> <div data-t="rule_1">控制赛车左右移动躲避障碍物</div></div>
+                    <div class="rule-item"><span>⏱️</span> <div data-t="rule_2">存活时间越久，难度越高</div></div>
+                    <div class="rule-item"><span>⌨️</span> <div data-t="rule_3">PC端：WASD / 方向键移动</div></div>
+                    <div class="rule-item"><span>📱</span> <div data-t="rule_4">移动端：手指滑动控制</div></div>
+                    <div class="rule-item"><span>🎵</span> <div data-t="rule_5">注意障碍物节奏变化</div></div>
+                    <div class="rule-item"><span>🏆</span> <div data-t="rule_6">挑战更长生存时间</div></div>
+                </div>
+
+                <div class="disclaimer-box">
+                    <span class="disclaimer-title" data-t="disclaimer_title">【免责声明】</span>
+                    <div id="disclaimerBody" data-t="disclaimer_body">
+                        本游戏仅供娱乐与交流体验使用，无任何商业用途。<br>
+                        游戏内容均为虚构设计，如有雷同，纯属巧合。<br>
+                        部分音频与素材来源于网络，仅用于非商业展示。<br>
+                        如涉及版权问题，请联系后删除。<br>
+                        感谢每位老师的体验与支持。
+                    </div>
+                </div>
+            </div>
+            <button class="btn" onclick="showPage('charPage')" data-t="confirm">确认</button>
+            <div class="top-right">
+                <div class="icon-btn" onclick="toggleLang()">中/EN</div>
+            </div>
+        </div>
+
+        <!-- 页面 3: 人物选择 -->
+        <div id="charPage" class="page">
+            <h2 style="margin-bottom: 20px; font-weight: 900;" data-t="select_char">选择你的角色</h2>
+            <div class="char-grid" id="charGrid"></div>
+            <div style="display: flex;">
+                <button class="btn" style="background: #444;" onclick="showPage('startPage')" data-t="back">返回</button>
+                <button class="btn" onclick="startGame()" data-t="go">出发！</button>
+            </div>
+            <div class="top-right">
+                <div class="icon-btn" onclick="toggleLang()">中/EN</div>
+            </div>
+        </div>
+
+        <!-- 页面 4: 游戏 -->
+        <div id="gamePage" class="page">
+            <canvas id="gameCanvas"></canvas>
+            <div class="hud">
+                <div class="hud-item">
+                    <span data-t="hud_health">生命</span>: 
+                    <span class="health-container" id="healthHUD">❤❤❤</span>
+                </div>
+                <div class="hud-item"><span data-t="hud_time">时间</span>: <span id="timeHUD">0.0s</span></div>
+                <div class="hud-item"><span data-t="hud_level">难度</span>: <span id="levelHUD">EASY</span></div>
+            </div>
+            <div id="gameTip" style="position: absolute; top: 35%; left: 50%; transform: translate(-50%, -50%); font-size: 2rem; font-weight: 900; color: #fff; text-shadow: 0 0 15px var(--primary); z-index: 40; pointer-events: none; opacity: 0; transition: opacity 0.5s; white-space: nowrap;">坚持很久了！</div>
+            <div class="top-right">
+                <div class="icon-btn" onclick="toggleLang()">中/EN</div>
+                <div class="icon-btn" onclick="toggleMute()" id="muteBtn">🔊</div>
+            </div>
+            <div id="countdown">3</div>
+        </div>
+
+        <div class="overlay" id="deathOverlay">
+            <div class="modal">
+                <h2 data-t="revive_title">是否原地复活？</h2>
+                <p id="deathStats" style="margin-bottom: 20px; font-weight: bold; color: #fff;"></p>
+                <button class="btn" onclick="reviveConfirm()" data-t="revive_ok">确认</button>
+                <button class="btn" style="background: #444;" onclick="reviveCancel()" data-t="revive_no">取消</button>
+            </div>
+        </div>
+
+        <div id="shortcutOverlay" style="position: fixed; inset: 0; background: #000; display: none; flex-direction: column; align-items: center; justify-content: center; z-index: 110;">
+            <div style="font-size: 2.5rem; font-weight: 900; color: var(--primary); text-align: center; line-height: 1.5; text-shadow: 0 0 20px var(--primary-glow); animation: pulseText 0.5s infinite alternate;">
+                人生没有捷径！<br>努力靠自己！<br>加油！
+            </div>
+        </div>
+
+        <div class="footer">
+            @callmexxxiao<br>
+            <span data-t="footer_msg">仅供娱乐 · 行车注意安全驾驶</span>
+        </div>
+    </div>
+
+    <audio id="bgmPlayer" loop></audio>
+
+    <script>
+        const i18n = {
+            zh: {
+                start: "开始游戏",
+                rule_title: "【游戏说明】",
+                rule_1: "控制赛车左右移动躲避障碍物",
+                rule_2: "存活时间越久，难度越高",
+                rule_3: "PC端：WASD / 方向键移动",
+                rule_4: "移动端：手指滑动控制",
+                rule_5: "注意障碍物节奏变化",
+                rule_6: "挑战更长生存时间",
+                disclaimer_title: "【免责声明】",
+                disclaimer_body: "本游戏仅供娱乐与交流体验使用，无任何商业用途。<br>游戏内容均为虚构设计，如有雷同，纯属巧合。<br>部分音频与素材来源于网络，仅用于非商业展示。<br>如涉及版权问题，请联系后删除。<br>感谢每位老师的体验与支持。",
+                confirm: "确认",
+                select_char: "选择你的角色",
+                back: "返回",
+                go: "出发！",
+                hud_health: "生命",
+                hud_time: "时间",
+                hud_level: "难度",
+                revive_title: "是否原地复活？",
+                revive_ok: "确认",
+                revive_no: "取消",
+                footer_msg: "仅供娱乐 · 行车注意安全驾驶",
+                shortcut: "人生没有捷径！",
+                levels: ["简单", "预热", "挑战", "高压", "极限"]
+            },
+            en: {
+                start: "START GAME",
+                rule_title: "HOW TO PLAY",
+                rule_1: "Move left/right to avoid obstacles",
+                rule_2: "Survive longer for higher difficulty",
+                rule_3: "PC: WASD / Arrow Keys",
+                rule_4: "Mobile: Swipe to control",
+                rule_5: "Watch the rhythm of obstacles",
+                rule_6: "Challenge for the longest time",
+                disclaimer_title: "【DISCLAIMER】",
+                disclaimer_body: "This game is for entertainment only, no commercial use.<br>Content is fictional; any resemblance is coincidental.<br>Audio/Assets from web for non-commercial display.<br>Contact us to remove if copyright issues occur.<br>Thanks for your support and experience.",
+                confirm: "CONFIRM",
+                select_char: "CHOOSE CHARACTER",
+                back: "BACK",
+                go: "GO!",
+                hud_health: "LIFE",
+                hud_time: "TIME",
+                hud_level: "LEVEL",
+                revive_title: "REVIVE NOW?",
+                revive_ok: "YES",
+                revive_no: "NO",
+                footer_msg: "FOR FUN ONLY · DRIVE SAFELY",
+                shortcut: "No shortcuts in life!",
+                levels: ["EASY", "WARMUP", "CHALLENGE", "HIGH PRESSURE", "LIMIT"]
+            }
+        };
+
+        const config = {
+            charCount: 12,
+            charPath: 'assets/characters/character_',
+            roadWidth: 280,
+            nearMissDist: 35,
+            notes: ['♪', '♫', '♬', '♩'],
+            obstacleColors: ["#ff4d4d", "#ffd93d", "#4da6ff", "#b366ff", "#ff944d"],
+            bgmList: ["assets/music/bgm1.mp3", "assets/music/bgm2.mp3", "assets/music/bgm3.mp3"]
+        };
+
+        let state = {
+            lang: 'zh',
+            selectedChar: 1,
+            isMuted: false,
+            gameRunning: false,
+            time: 0,
+            difficulty: 1,
+            health: 3,
+            playerX: 0.5,
+            playerTargetX: 0.5,
+            obstacles: [],
+            particles: [],
+            lastObstacleTime: 0,
+            isSlowMo: false,
+            keys: {},
+            lastTipTime: 0,
+            dpr: window.devicePixelRatio || 1
+        };
+
+        const canvas = document.getElementById('gameCanvas');
+        const ctx = canvas.getContext('2d');
+        const bgmPlayer = document.getElementById('bgmPlayer');
+        const charImages = {};
+        let animationId;
+
+        function init() {
+            renderCharGrid();
+            window.addEventListener('resize', resizeCanvas);
+            resizeCanvas();
+            updateUI();
+
+            window.addEventListener('keydown', e => state.keys[e.code] = true);
+            window.addEventListener('keyup', e => state.keys[e.code] = false);
+            
+            canvas.addEventListener('touchstart', e => {
+                state.touchStartX = e.touches[0].clientX;
+                state.touchStartPlayerX = state.playerTargetX;
+            });
+            canvas.addEventListener('touchmove', e => {
+                if(!state.gameRunning) return;
+                const delta = (e.touches[0].clientX - state.touchStartX) / config.roadWidth;
+                state.playerTargetX = Math.max(0, Math.min(1, state.touchStartPlayerX + delta));
+                e.preventDefault();
+            }, {passive: false});
+
+            for(let i=1; i<=config.charCount; i++) preloadChar(i);
+        }
+
+        function toggleLang() {
+            state.lang = state.lang === 'zh' ? 'en' : 'zh';
+            updateUI();
+        }
+
+        function updateUI() {
+            const t = i18n[state.lang];
+            document.querySelectorAll('[data-t]').forEach(el => {
+                const key = el.getAttribute('data-t');
+                if(t[key]) {
+                    if(key === 'rule_body' || key === 'disclaimer_body' || key.startsWith('rule_')) {
+                        el.innerHTML = t[key];
+                    } else {
+                        el.innerText = t[key];
+                    }
+                }
+            });
+        }
+
+        function preloadChar(id) {
+            if(charImages[id]) return;
+            const img = new Image();
+            const extensions = ['.png', '.jpg', '.jpeg', '.webp'];
+            let extIdx = 0;
+            
+            const tryLoad = () => {
+                if(extIdx >= extensions.length) {
+                    const f = new Image(); f.src = 'https://via.placeholder.com/100?text=Char'+id;
+                    charImages[id] = f;
+                    return;
+                }
+                img.src = `${config.charPath}${id}${extensions[extIdx]}`;
+                img.onload = () => { charImages[id] = img; updateGridImages(); };
+                img.onerror = () => { extIdx++; tryLoad(); };
+            };
+            tryLoad();
+        }
+
+        function updateGridImages() {
+            document.querySelectorAll('.char-card img').forEach(img => {
+                const id = img.getAttribute('data-id');
+                if(charImages[id] && !img.src.includes('character_')) {
+                    img.src = charImages[id].src;
+                }
+            });
+        }
+
+        function renderCharGrid() {
+            const grid = document.getElementById('charGrid');
+            grid.innerHTML = '';
+            for(let i=1; i<=config.charCount; i++) {
+                const card = document.createElement('div');
+                card.className = `char-card ${i===state.selectedChar?'selected':''}`;
+                card.onclick = () => {
+                    state.selectedChar = i;
+                    document.querySelectorAll('.char-card').forEach((c, idx) => c.classList.toggle('selected', idx+1 === i));
+                };
+                const img = document.createElement('img');
+                img.setAttribute('data-id', i);
+                img.src = 'data:image/gif;base64,R0lGODlhAQABAIAAAAAAAP///yH5BAEAAAAALAAAAAABAAEAAAIBRAA7';
+                card.appendChild(img);
+                grid.appendChild(card);
+            }
+        }
+
+        function showPage(id) {
+            document.querySelectorAll('.page').forEach(p => p.classList.remove('active'));
+            document.getElementById(id).classList.add('active');
+        }
+
+        function resizeCanvas() {
+            state.dpr = window.devicePixelRatio || 1;
+            canvas.width = window.innerWidth * state.dpr;
+            canvas.height = window.innerHeight * state.dpr;
+            ctx.scale(state.dpr, state.dpr);
+            canvas.style.width = window.innerWidth + 'px';
+            canvas.style.height = window.innerHeight + 'px';
+            config.roadWidth = Math.min(window.innerWidth * 0.75, 280);
+        }
+
+        function playRandomBGM() {
+            const randomSrc = config.bgmList[Math.floor(Math.random() * config.bgmList.length)];
+            bgmPlayer.src = randomSrc;
+            bgmPlayer.muted = state.isMuted;
+            bgmPlayer.play().catch(e => console.log("Music blocked"));
+        }
+
+        function stopBGM() {
+            bgmPlayer.pause();
+            bgmPlayer.currentTime = 0;
+        }
+
+        function startGame() {
+            showPage('gamePage');
+            const cd = document.getElementById('countdown');
+            cd.style.display = 'block';
+            let count = 3;
+            cd.innerText = count;
+            const timer = setInterval(() => {
+                count--;
+                if(count > 0) cd.innerText = count;
+                else if(count === 0) cd.innerText = 'GO!';
+                else {
+                    clearInterval(timer);
+                    cd.style.display = 'none';
+                    resetGameState();
+                    playRandomBGM();
+                    state.gameRunning = true;
+                    gameLoop();
+                }
+            }, 800);
+        }
+
+        function resetGameState() {
+            state.time = 0;
+            state.difficulty = 1;
+            state.health = 3;
+            state.obstacles = [];
+            state.particles = [];
+            state.lastObstacleTime = 0;
+            state.playerX = 0.5;
+            state.playerTargetX = 0.5;
+            state.isSlowMo = false;
+            state.lastTipTime = 0;
+            updateHealthHUD();
+        }
+
+        function updateHealthHUD() {
+            const hearts = "❤".repeat(state.health);
+            document.getElementById('healthHUD').innerText = hearts;
+        }
+
+        function gameLoop() {
+            if(!state.gameRunning) return;
+            const dt = state.isSlowMo ? 0.005 : 0.016;
+            state.time += dt;
+            
+            updateDifficulty();
+            updatePlayer();
+            updateObstacles();
+            updateParticles();
+            checkCollisions();
+            
+            draw();
+            animationId = requestAnimationFrame(gameLoop);
+        }
+
+        function updateDifficulty() {
+            if(state.time < 5) {
+                state.difficulty = 1.0; 
+            } else if(state.time < 15) {
+                state.difficulty = 1.0 + (state.time - 5) * 0.08; 
+            } else if(state.time < 30) {
+                state.difficulty = 1.8 + (state.time - 15) * 0.12; 
+            } else if(state.time < 60) {
+                state.difficulty = 3.6 + (state.time - 30) * 0.06; 
+            } else {
+                state.difficulty = 5.4 + (state.time - 60) * 0.03; 
+            }
+
+            document.getElementById('timeHUD').innerText = state.time.toFixed(1) + 's';
+            const levels = i18n[state.lang].levels;
+            const idx = Math.min(Math.floor(state.difficulty) - 1, levels.length - 1);
+            document.getElementById('levelHUD').innerText = levels[idx];
+        }
+
+        function updatePlayer() {
+            const moveSpeed = 0.022;
+            if(state.keys['ArrowLeft'] || state.keys['KeyA']) state.playerTargetX -= moveSpeed;
+            if(state.keys['ArrowRight'] || state.keys['KeyD']) state.playerTargetX += moveSpeed;
+            state.playerTargetX = Math.max(0, Math.min(1, state.playerTargetX));
+            state.playerX += (state.playerTargetX - state.playerX) * 0.18;
+
+            if(Math.abs(state.playerTargetX - state.playerX) > 0.01) {
+                state.particles.push({
+                    x: (window.innerWidth - config.roadWidth)/2 + state.playerX * config.roadWidth + (Math.random()-0.5)*20,
+                    y: window.innerHeight - 110,
+                    vx: 0, vy: 2, life: 1, type: 'smoke'
+                });
+            }
+        }
+
+        function updateObstacles() {
+            const spawnInterval = Math.max(0.22, 1.4 / state.difficulty);
+            
+            if(state.time - state.lastObstacleTime > spawnInterval) {
+                spawnNoteSet();
+                state.lastObstacleTime = state.time;
+            }
+            
+            const speed = 5.0 + state.difficulty * 1.8;
+            state.obstacles.forEach(obs => obs.y += speed * (state.isSlowMo ? 0.3 : 1));
+            state.obstacles = state.obstacles.filter(obs => obs.y < window.innerHeight + 100);
+        }
+
+        function spawnNoteSet() {
+            const roadLeft = (window.innerWidth - config.roadWidth) / 2;
+            let count = 1;
+            if(state.difficulty > 2.2 && Math.random() > 0.65) count = 2;
+            if(state.difficulty > 4.2 && Math.random() > 0.75) count = 3;
+            
+            const usedLanes = new Set();
+            for(let i=0; i<count; i++) {
+                let lane = Math.floor(Math.random() * 4);
+                if(usedLanes.size >= 3) break; 
+                
+                while(usedLanes.has(lane)) {
+                    lane = Math.floor(Math.random() * 4);
+                }
+                usedLanes.add(lane);
+                
+                const size = 24 + Math.random() * 22;
+                state.obstacles.push({
+                    x: roadLeft + (lane + 0.5) * (config.roadWidth/4) + (Math.random()-0.5)*20,
+                    y: -50 - (i * 35),
+                    char: config.notes[Math.floor(Math.random()*config.notes.length)],
+                    size: size,
+                    color: config.obstacleColors[Math.floor(Math.random()*config.obstacleColors.length)],
+                    missed: false
+                });
+            }
+        }
+
+        function updateParticles() {
+            state.particles.forEach((p, i) => {
+                p.x += p.vx; p.y += p.vy; p.life -= 0.03;
+                if(p.life <= 0) state.particles.splice(i, 1);
+            });
+        }
+
+        function checkCollisions() {
+            const pX = (window.innerWidth - config.roadWidth)/2 + state.playerX * config.roadWidth;
+            const pY = window.innerHeight - 120;
+            let hasNearMiss = false;
+
+            for(let obs of state.obstacles) {
+                const dx = Math.abs(pX - obs.x);
+                const dy = Math.abs(pY - obs.y);
+                const colW = 34 + obs.size * 0.45;
+                const colH = 48 + obs.size * 0.45;
+
+                if(dx < colW/2 && dy < colH/2) {
+                    gameOver();
+                    return;
+                }
+                
+                if(!obs.missed && dx < colW/2 + config.nearMissDist && dy < colH/2 + config.nearMissDist) {
+                    hasNearMiss = true;
+                    obs.missed = true;
+                    state.health--;
+                    updateHealthHUD();
+                    
+                    if(state.health <= 0) {
+                        gameOver();
+                        return;
+                    }
+                    
+                    for(let i=0; i<6; i++) state.particles.push({x:obs.x, y:obs.y, vx:(Math.random()-0.5)*8, vy:(Math.random()-0.5)*8, life:1, type:'spark'});
+                }
+            }
+            if(hasNearMiss) triggerNearMiss();
+        }
+
+        function triggerNearMiss() {
+            if(state.isSlowMo) return;
+            state.isSlowMo = true;
+            document.body.classList.add('shake');
+            setTimeout(() => {
+                state.isSlowMo = false;
+                document.body.classList.remove('shake');
+            }, 300);
+        }
+
+        function draw() {
+            ctx.clearRect(0, 0, window.innerWidth, window.innerHeight);
+            drawEnv();
+            drawRoad();
+            drawParticles();
+            
+            state.obstacles.forEach(obs => {
+                ctx.fillStyle = obs.color;
+                ctx.font = `bold ${obs.size}px Arial`;
+                ctx.textAlign = 'center';
+                ctx.textBaseline = 'middle';
+                ctx.shadowBlur = 8;
+                ctx.shadowColor = obs.color;
+                ctx.fillText(obs.char, obs.x, obs.y);
+                ctx.shadowBlur = 0;
+            });
+
+            drawPlayer();
+        }
+
+        function drawEnv() {
+            const roadLeft = (window.innerWidth - config.roadWidth) / 2;
+            ctx.fillStyle = '#05050a';
+            ctx.fillRect(0, 0, roadLeft, window.innerHeight);
+            ctx.fillRect(roadLeft + config.roadWidth, 0, window.innerWidth, window.innerHeight);
+            
+            ctx.strokeStyle = varColor('--primary');
+            ctx.lineWidth = 4;
+            ctx.shadowBlur = 15;
+            ctx.shadowColor = varColor('--primary');
+            ctx.beginPath();
+            ctx.moveTo(roadLeft - 8, 0); ctx.lineTo(roadLeft - 8, window.innerHeight);
+            ctx.moveTo(roadLeft + config.roadWidth + 8, 0); ctx.lineTo(roadLeft + config.roadWidth + 8, window.innerHeight);
+            ctx.stroke();
+            ctx.shadowBlur = 0;
+        }
+
+        function drawRoad() {
+            const roadLeft = (window.innerWidth - config.roadWidth) / 2;
+            ctx.fillStyle = '#0d0d14';
+            ctx.fillRect(roadLeft, 0, config.roadWidth, window.innerHeight);
+            
+            ctx.strokeStyle = 'rgba(255,255,255,0.06)';
+            ctx.setLineDash([30, 50]);
+            ctx.lineDashOffset = -(state.time * 550) % 80;
+            for(let i=1; i<4; i++) {
+                ctx.beginPath();
+                const lx = roadLeft + i * (config.roadWidth/4);
+                ctx.moveTo(lx, 0); ctx.lineTo(lx, canvas.height);
+                ctx.stroke();
+            }
+            ctx.setLineDash([]);
+        }
+
+        function drawParticles() {
+            state.particles.forEach(p => {
+                if(p.type === 'smoke') {
+                    ctx.fillStyle = `rgba(255,255,255,${p.life * 0.2})`;
+                    ctx.beginPath(); ctx.arc(p.x, p.y, 4 * p.life, 0, Math.PI*2); ctx.fill();
+                } else if(p.type === 'spark') {
+                    ctx.fillStyle = `rgba(255,255,0,${p.life})`;
+                    ctx.fillRect(p.x, p.y, 3, 3);
+                }
+            });
+        }
+
+        function drawPlayer() {
+            const roadLeft = (window.innerWidth - config.roadWidth) / 2;
+            const x = roadLeft + state.playerX * config.roadWidth;
+            const y = window.innerHeight - 120;
+            
+            const img = charImages[state.selectedChar];
+            let charH = 92; 
+            let charW = 78;  
+            if(img && img.complete && img.naturalWidth !== 0) {
+                charW = (img.naturalWidth / img.naturalHeight) * charH;
+            }
+
+            const carW = Math.max(50, charW * 0.72);
+            const carH = 32;
+
+            ctx.save();
+            ctx.translate(x, y);
+            
+            ctx.imageSmoothingEnabled = true;
+            ctx.imageSmoothingQuality = 'high';
+
+            const drawWheel = (wx, wy) => {
+                ctx.fillStyle = '#000';
+                ctx.strokeStyle = '#333';
+                ctx.lineWidth = 1.5;
+                ctx.beginPath();
+                ctx.roundRect(wx, wy, 14, 10, 4);
+                ctx.fill();
+                ctx.stroke();
+                ctx.fillStyle = 'rgba(255,255,255,0.2)';
+                ctx.fillRect(wx+2, wy+2, 6, 2);
+            };
+
+            drawWheel(-carW/2 - 2, -carH/2 - 4); 
+            drawWheel(carW/2 - 12, -carH/2 - 4);
+            drawWheel(-carW/2 - 2, carH/2 - 6); 
+            drawWheel(carW/2 - 12, carH/2 - 6);
+            
+            ctx.fillStyle = varColor('--primary');
+            ctx.beginPath();
+            ctx.roundRect(-carW/2, -carH/2, carW, carH, 8);
+            ctx.fill();
+            ctx.fillStyle = 'rgba(255,255,255,0.25)';
+            ctx.fillRect(-carW/2 + 5, -carH/2 + 4, carW - 10, 2);
+
+            if(img && img.complete && img.naturalWidth !== 0) {
+                ctx.save();
+                ctx.shadowBlur = 12;
+                ctx.shadowColor = 'rgba(255,255,255,0.8)';
+                ctx.filter = 'brightness(0) invert(1)';
+                for(let i=0; i<2; i++) {
+                    ctx.drawImage(img, -charW/2-1.5, -carH/2 - (charH * 0.8)-1.5, charW+3, charH+3);
+                }
+                ctx.filter = 'none';
+                ctx.shadowBlur = 6;
+                ctx.shadowColor = 'rgba(0,0,0,0.6)';
+                ctx.drawImage(img, -charW/2, -carH/2 - (charH * 0.8), charW, charH);
+                ctx.restore();
+            }
+
+            ctx.fillStyle = varColor('--primary');
+            ctx.beginPath();
+            ctx.roundRect(-carW/2 + 6, carH/2 - 16, carW - 12, 10, 5);
+            ctx.fill();
+            
+            ctx.restore();
+        }
+
+        function varColor(n) { return getComputedStyle(document.documentElement).getPropertyValue(n).trim(); }
+
+        function gameOver() {
+            state.gameRunning = false;
+            cancelAnimationFrame(animationId);
+            stopBGM();
+            document.getElementById('deathStats').innerText = `TIME: ${state.time.toFixed(1)}s`;
+            document.getElementById('deathOverlay').style.display = 'flex';
+        }
+
+        function reviveConfirm() {
+            document.getElementById('deathOverlay').style.display = 'none';
+            const shortcut = document.getElementById('shortcutOverlay');
+            shortcut.style.display = 'flex';
+            setTimeout(() => {
+                shortcut.style.display = 'none';
+                showPage('startPage');
+            }, 1200);
+        }
+
+        function reviveCancel() {
+            document.getElementById('deathOverlay').style.display = 'none';
+            showPage('startPage');
+        }
+
+        function toggleMute() {
+            state.isMuted = !state.isMuted;
+            bgmPlayer.muted = state.isMuted;
+            document.querySelectorAll('#muteBtn').forEach(b => b.innerText = state.isMuted ? '🔇' : '🔊');
+        }
+
+        init();
+    </script>
+</body>
+</html>
