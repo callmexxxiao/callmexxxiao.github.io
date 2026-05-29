@@ -14,18 +14,6 @@
             --road-width: 280px;
         }
 
-        /* PC 横屏适配优化 */
-        @media (min-width: 1024px) and (orientation: landscape) {
-            :root { --road-width: 450px; }
-            .page { padding: 40px; }
-            .btn { font-size: 1.2rem; padding: 15px 30px; }
-            .game-title { font-size: 5rem; }
-            .rule-container, .leaderboard-container, .settlement-card { max-width: 500px; }
-            .hud-item { font-size: 1rem; padding: 8px 15px; min-width: 140px; }
-            .icon-btn { min-width: 110px; height: 40px; font-size: 0.9rem; }
-            .char-grid { max-width: 600px !important; grid-template-columns: repeat(6, 1fr) !important; }
-        }
-
         @media (max-width: 600px) {
             :root { --road-width: 85vw; }
         }
@@ -52,7 +40,6 @@
             position: absolute; inset: 0;
             background: radial-gradient(circle at center, #1a0a0f 0%, #05050a 100%);
             z-index: 1;
-            transition: background 2s ease;
         }
 
         .page {
@@ -76,188 +63,175 @@
         .btn.secondary { background: #444; }
 
         .game-title {
-            font-size: clamp(2.5rem, 10vw, 5rem); font-weight: 900; color: #fff;
+            font-size: clamp(2rem, 10vw, 4rem); font-weight: 900; color: #fff;
             text-shadow: 4px 4px 0px var(--primary), 8px 8px 0px #000;
             margin-bottom: 1rem; font-style: italic;
         }
 
         .start-car-icon {
-            font-size: clamp(3rem, 10vw, 5rem); margin-bottom: 0.5rem;
-            filter: drop-shadow(0 0 15px var(--primary));
+            font-size: clamp(2.5rem, 8vw, 3.5rem); margin-bottom: 0.5rem;
+            filter: drop-shadow(0 0 10px var(--primary));
             animation: bounce 1s infinite alternate ease-in-out;
         }
 
         @keyframes bounce {
             from { transform: translateY(0) rotate(-2deg); }
-            to { transform: translateY(-15px) rotate(2deg); }
+            to { transform: translateY(-12px) rotate(2deg); }
         }
 
         .rule-container, .leaderboard-container {
-            background: var(--glass); padding: 20px; border-radius: 24px;
-            width: 95%; max-width: 400px; border: 3px solid var(--primary);
-            box-shadow: 0 0 25px rgba(255, 51, 85, 0.3), 8px 8px 0px #000;
-            display: flex; flex-direction: column; gap: 10px;
-            max-height: 80vh; overflow-y: auto; scrollbar-width: none;
-            margin-bottom: 15px;
+            background: var(--glass); padding: 15px; border-radius: 24px;
+            width: 95%; max-width: 360px; border: 3px solid var(--primary);
+            box-shadow: 0 0 20px rgba(255, 51, 85, 0.2), 6px 6px 0px #000;
+            display: flex; flex-direction: column; gap: 8px;
+            max-height: 75vh; overflow-y: auto; scrollbar-width: none;
+            margin-bottom: 10px;
         }
         .rule-container::-webkit-scrollbar, .leaderboard-container::-webkit-scrollbar { display: none; }
 
         .rule-title, .leaderboard-title {
-            color: var(--primary); font-size: 1.5rem; font-weight: 900;
-            text-transform: uppercase; margin-bottom: 5px;
+            color: var(--primary); font-size: 1.3rem; font-weight: 900;
+            text-transform: uppercase; margin-bottom: 2px;
         }
 
         .rule-section {
-            background: rgba(255, 255, 255, 0.05); padding: 12px;
-            border-radius: 14px; border-left: 5px solid var(--primary); text-align: left;
+            background: rgba(255, 255, 255, 0.05); padding: 10px;
+            border-radius: 14px; border-left: 4px solid var(--primary); text-align: left;
         }
 
         .rule-item {
-            display: flex; align-items: flex-start; gap: 10px; margin-bottom: 8px;
-            font-size: 0.85rem; line-height: 1.4; font-weight: 600;
+            display: flex; align-items: flex-start; gap: 8px; margin-bottom: 5px;
+            font-size: 0.75rem; line-height: 1.3; font-weight: 600;
         }
-        .rule-item span { color: var(--primary); width: 20px; font-size: 1rem; }
+        .rule-item span { color: var(--primary); width: 18px; }
 
         .disclaimer {
-            background: rgba(0, 0, 0, 0.5); padding: 12px; border-radius: 12px;
-            font-size: 0.7rem; color: rgba(255, 255, 255, 0.7); text-align: left;
-            line-height: 1.5; border: 1px solid rgba(255, 51, 85, 0.3);
+            background: rgba(0, 0, 0, 0.4); padding: 10px; border-radius: 12px;
+            font-size: 0.65rem; color: rgba(255, 255, 255, 0.6); text-align: left;
+            line-height: 1.4; border: 1px solid rgba(255, 51, 85, 0.2);
         }
-        .disclaimer b { color: var(--primary); display: block; margin-bottom: 5px; }
+        .disclaimer b { color: var(--primary); display: block; margin-bottom: 3px; }
 
-        /* 人物选择页面优化 */
         .char-grid {
-            display: grid; grid-template-columns: repeat(4, 1fr); gap: 10px;
-            width: 95%; max-width: 400px; padding: 15px; margin-bottom: 15px;
+            display: grid; grid-template-columns: repeat(4, 1fr); gap: 8px;
+            width: 95%; max-width: 360px; padding: 10px; margin-bottom: 15px;
             background: rgba(255, 255, 255, 0.05); border-radius: 20px; border: 2px solid rgba(255, 255, 255, 0.1);
-            max-height: 60vh; overflow-y: auto;
+            max-height: 45vh; overflow-y: auto;
         }
 
         .char-card {
-            aspect-ratio: 1/1.2; background: rgba(0, 0, 0, 0.4); border-radius: 12px;
+            aspect-ratio: 1/1; background: rgba(0, 0, 0, 0.3); border-radius: 12px;
             border: 2px solid transparent; cursor: pointer; display: flex;
-            flex-direction: column; align-items: center; justify-content: center; 
-            transition: all 0.2s; overflow: hidden; position: relative;
+            align-items: center; justify-content: center; transition: all 0.2s; overflow: hidden;
         }
 
-        .char-card img { width: 65%; height: 65%; object-fit: contain; filter: drop-shadow(0 0 2px #fff); margin-bottom: 10px; }
-        
-        /* 人物名字标签 */
-        .char-name-tag {
-            position: absolute; bottom: 0; left: 0; right: 0;
-            background: rgba(0, 0, 0, 0.7); color: #fff; font-size: 0.6rem;
-            font-weight: 900; padding: 3px 0; text-align: center;
-            border-top: 1px solid var(--primary);
-            backdrop-filter: blur(2px);
-            z-index: 5;
-        }
-
-        /* 统一页脚样式 */
-        .footer-info {
-            position: absolute; bottom: 10px; left: 0; right: 0;
-            text-align: center; font-size: 0.6rem; color: rgba(255, 255, 255, 0.4);
-            pointer-events: none; z-index: 25; line-height: 1.4;
-        }
+        .char-card img { width: 85%; height: 85%; object-fit: contain; filter: drop-shadow(0 0 2px #fff); }
 
         .char-card.selected {
-            border-color: var(--primary); background: rgba(255, 51, 85, 0.3);
-            transform: scale(1.05); 
-            box-shadow: 0 0 25px var(--primary-glow), inset 0 0 15px var(--primary-glow);
-            animation: card-pulse 2s infinite alternate ease-in-out;
-        }
-
-        @keyframes card-pulse {
-            from { box-shadow: 0 0 15px var(--primary-glow), inset 0 0 10px var(--primary-glow); }
-            to { box-shadow: 0 0 30px var(--primary-glow), inset 0 0 20px var(--primary-glow); }
-        }
-
-        /* 浮动提示文字样式 */
-        .float-msg {
-            position: absolute; pointer-events: none;
-            color: #fff; font-weight: 900; font-size: 0.75rem;
-            text-shadow: 0 0 8px var(--primary);
-            z-index: 100; text-transform: uppercase;
-            white-space: nowrap;
-            animation: float-up 1.2s forwards ease-out;
-        }
-
-        @keyframes float-up {
-            0% { transform: translate(-50%, 0); opacity: 0; }
-            20% { transform: translate(-50%, -10px); opacity: 1; }
-            100% { transform: translate(-50%, -60px); opacity: 0; }
+            border-color: var(--primary); background: rgba(255, 51, 85, 0.15);
+            transform: scale(1.05); box-shadow: 0 0 15px var(--primary-glow);
         }
 
         #gameCanvas { position: absolute; inset: 0; width: 100%; height: 100%; z-index: 5; }
 
         .hud {
-            position: absolute; top: max(15px, env(safe-area-inset-top)); left: max(15px, env(safe-area-inset-left)); z-index: 30;
-            pointer-events: none; display: flex; flex-direction: column; gap: 6px;
+            position: absolute; top: max(10px, env(safe-area-inset-top)); left: max(10px, env(safe-area-inset-left)); z-index: 30;
+            pointer-events: none; display: flex; flex-direction: column; gap: 4px;
         }
 
         .hud-item {
-            background: var(--glass); padding: 5px 12px; border-radius: 10px;
-            font-size: 0.8rem; font-weight: 900; border: 2px solid var(--primary);
-            color: #fff; display: flex; align-items: center; gap: 8px; min-width: 110px;
-            box-shadow: 4px 4px 0px #000;
+            background: var(--glass); padding: 3px 8px; border-radius: 8px;
+            font-size: 0.65rem; font-weight: 900; border: 1.5px solid var(--primary);
+            color: #fff; display: flex; align-items: center; gap: 5px; min-width: 90px;
         }
 
-        .health-container { color: #ff3355; letter-spacing: 2px; transition: all 0.2s; }
-        .health-hit { transform: scale(1.5); color: #fff; }
+        .health-container { color: #ff3355; letter-spacing: 1px; }
 
         .top-right {
-            position: absolute; top: max(15px, env(safe-area-inset-top)); right: max(15px, env(safe-area-inset-right)); 
-            z-index: 30; display: flex; flex-direction: column; gap: 8px; align-items: flex-end;
+            position: absolute; top: max(10px, env(safe-area-inset-top)); right: max(10px, env(safe-area-inset-right)); 
+            z-index: 30; display: flex; flex-direction: column; gap: 6px; align-items: flex-end;
         }
 
         .icon-btn {
-            min-width: 90px; height: 35px; padding: 0 12px; border-radius: 12px;
-            background: var(--glass); border: 2px solid var(--primary); color: white;
+            min-width: 75px; height: 30px; padding: 0 8px; border-radius: 10px;
+            background: var(--glass); border: 1.5px solid var(--primary); color: white;
             display: flex; align-items: center; justify-content: center; cursor: pointer;
-            font-weight: 900; font-size: 0.75rem; white-space: nowrap; box-shadow: 4px 4px 0px #000;
+            font-weight: 900; font-size: 0.65rem; white-space: nowrap;
         }
 
         #countdown {
             position: absolute; top: 45%; left: 50%; transform: translate(-50%, -50%);
-            font-size: 6rem; font-weight: 900; z-index: 40; color: #fff;
-            text-shadow: 0 0 40px var(--primary); pointer-events: none; display: none;
+            font-size: 5rem; font-weight: 900; z-index: 40; color: #fff;
+            text-shadow: 0 0 30px var(--primary); pointer-events: none; display: none;
         }
 
         .settlement-card {
-            background: var(--glass); padding: 30px; border-radius: 24px;
-            width: 90%; max-width: 380px; border: 4px solid var(--primary);
-            box-shadow: 0 0 40px var(--primary-glow), 10px 10px 0px #000;
+            background: var(--glass); padding: 20px; border-radius: 24px;
+            width: 90%; max-width: 320px; border: 3px solid var(--primary);
+            box-shadow: 0 0 30px var(--primary-glow), 8px 8px 0px #000;
             text-align: center; display: flex; flex-direction: column; align-items: center;
         }
 
         .settlement-time {
-            font-size: 3rem; font-weight: 900; color: #fff; margin: 10px 0;
-            text-shadow: 0 0 15px var(--primary);
+            font-size: 2.2rem; font-weight: 900; color: #fff; margin: 8px 0;
+            text-shadow: 0 0 10px var(--primary);
         }
 
         .input-box {
             background: rgba(255, 255, 255, 0.1); border: 2px solid var(--primary);
-            border-radius: 12px; padding: 12px; color: #fff; width: 100%;
-            font-size: 1rem; text-align: center; margin-bottom: 10px; outline: none;
+            border-radius: 12px; padding: 10px; color: #fff; width: 100%;
+            font-size: 0.95rem; text-align: center; margin-bottom: 8px; outline: none;
         }
 
         .btn-group {
-            display: flex; justify-content: center; align-items: center; width: 100%; gap: 8px; flex-wrap: nowrap;
+            display: flex; justify-content: center; align-items: center; width: 100%; gap: 5px; flex-wrap: nowrap;
         }
 
-        .flash-red { animation: flashRed 0.3s ease-out; }
+        .flash-red { animation: flashRed 0.2s ease-out; }
         @keyframes flashRed {
             0% { background: rgba(255, 51, 85, 0); }
-            50% { background: rgba(255, 51, 85, 0.5); }
+            50% { background: rgba(255, 51, 85, 0.4); }
             100% { background: rgba(255, 51, 85, 0); }
+        }
+
+        .toast {
+            position: fixed; top: 20%; left: 50%; transform: translateX(-50%);
+            background: var(--primary); color: #fff; padding: 8px 16px;
+            border-radius: 20px; font-weight: 900; z-index: 200;
+            box-shadow: 0 0 15px var(--primary-glow);
+            animation: fadeInOut 2s forwards; font-size: 0.8rem;
+        }
+        @keyframes fadeInOut {
+            0% { opacity: 0; transform: translate(-50%, -20px); }
+            15% { opacity: 1; transform: translate(-50%, 0); }
+            85% { opacity: 1; transform: translate(-50%, 0); }
+            100% { opacity: 0; transform: translate(-50%, -20px); }
+        }
+
+        #musicTip {
+            position: absolute; top: 55%; left: 50%; transform: translate(-50%, -50%);
+            font-size: 0.9rem; font-weight: 900; color: #fff; text-shadow: 0 0 10px var(--primary);
+            z-index: 40; pointer-events: none; opacity: 0; transition: opacity 0.3s; text-align: center;
+        }
+
+        .combo-tip {
+            position: absolute; pointer-events: none; font-weight: 900; color: #fff;
+            text-shadow: 0 0 10px var(--primary); z-index: 35;
+            animation: comboPop 0.8s forwards; font-style: italic;
+        }
+        @keyframes comboPop {
+            0% { transform: scale(0.5); opacity: 0; }
+            30% { transform: scale(1.2); opacity: 1; }
+            100% { transform: translateY(-50px) scale(1); opacity: 0; }
         }
 
         .center-msg {
             position: absolute; pointer-events: none;
-            color: #fff; font-weight: 900; font-size: 1.5rem;
+            color: #fff; font-weight: 900; font-size: 1.2rem;
             text-shadow: 0 0 5px #000, 0 0 10px var(--primary), 0 0 15px var(--primary);
             z-index: 100; text-transform: uppercase;
             white-space: nowrap;
-            animation: float-up 1.2s forwards ease-out;
+            animation: msgPop 1.2s forwards ease-out;
             letter-spacing: 1px;
         }
         @keyframes msgPop {
@@ -266,28 +240,12 @@
             80% { transform: translate(-50%, -50%) scale(1); opacity: 1; }
             100% { transform: translate(-50%, -80%) scale(0.8); opacity: 0; }
         }
-
-        .toast {
-            position: fixed; bottom: 10%; left: 50%; transform: translateX(-50%);
-            background: var(--primary); color: #fff; padding: 10px 20px;
-            border-radius: 25px; font-weight: 900; z-index: 200;
-            box-shadow: 0 0 20px var(--primary-glow);
-            animation: fadeInOut 2s forwards; font-size: 0.9rem;
-        }
-        @keyframes fadeInOut {
-            0% { opacity: 0; transform: translate(-50%, 20px); }
-            15% { opacity: 1; transform: translate(-50%, 0); }
-            85% { opacity: 1; transform: translate(-50%, 0); }
-            100% { opacity: 0; transform: translate(-50%, 20px); }
-        }
-
-        .shield-timer { color: #00f2ff; text-shadow: 0 0 10px #00f2ff; font-weight: 900; }
     </style>
 </head>
 <body>
 
     <div id="app">
-        <div class="dynamic-bg" id="dynamicBg"></div>
+        <div class="dynamic-bg"></div>
 
         <!-- 页面 1: 开始 -->
         <div id="startPage" class="page active">
@@ -318,273 +276,261 @@
                     <div class="rule-item"><span>⏱️</span> <div data-t="rule_2">存活时间越久，难度越高</div></div>
                     <div class="rule-item"><span>⌨️</span> <div data-t="rule_3">PC端：WASD / 方向键移动</div></div>
                     <div class="rule-item"><span>📱</span> <div data-t="rule_4">移动端：手指左右滑动控制</div></div>
-                    <div class="rule-item"><span>⚡</span> <div data-t="rule_5">收集道具：心、护盾、SAFE MODE</div></div>
+                    <div class="rule-item"><span>🎵</span> <div data-t="rule_5">注意障碍物节奏变化</div></div>
                     <div class="rule-item"><span>🏆</span> <div data-t="rule_6">挑战更长生存时间</div></div>
                 </div>
                 <div class="disclaimer">
                     <b data-t="disc_title">【免责声明】</b>
-                    <span data-t="disc_text">本游戏仅供娱乐与交流体验使用，无任何商业用途。游戏内容均为虚构设计，如有雷同，纯属巧合。部分音频与素材来源于网络，仅用于非商业展示。</span>
+                    <span data-t="disc_text">本游戏仅供娱乐与交流体验使用，无任何商业用途。游戏内容均为虚构设计，如有雷同，纯属巧合。部分音频与素材来源于网络，仅用于非商业展示。如涉及版权问题，请联系后删除。感谢每位老师的体验与支持。</span>
                 </div>
             </div>
             <button class="btn" onclick="showPage('charPage')" data-t="confirm">确认</button>
+            <div class="top-right">
+                <div class="icon-btn" onclick="toggleLang()">EN / 中文</div>
+            </div>
         </div>
 
-        <!-- 页面 4: 角色选择 -->
+        <!-- 页面 4: 人物选择 -->
         <div id="charPage" class="page">
-            <h2 class="game-title" style="font-size: 2rem;" data-t="select_char">选择你的角色</h2>
+            <h2 style="margin-bottom: 8px; font-weight: 900; font-size: 1rem;" data-t="select_char">选择你的角色</h2>
             <div class="char-grid" id="charGrid"></div>
-            <button class="btn" onclick="startGame()" data-t="start">开始游戏</button>
+            <div style="display: flex;">
+                <button class="btn secondary" onclick="showPage('startPage')" data-t="back">返回</button>
+                <button class="btn" onclick="startGame()" data-t="go">出发！</button>
+            </div>
+            <div class="top-right">
+                <div class="icon-btn" onclick="toggleLang()">EN / 中文</div>
+            </div>
         </div>
 
         <!-- 页面 5: 游戏 -->
-        <div id="gamePage" class="page">
+        <div id="gamePage" class="page" style="padding: 0;">
+            <canvas id="gameCanvas"></canvas>
             <div class="hud">
                 <div class="hud-item">
-                    <span data-t="hud_health">生命</span> <span class="health-container" id="healthHUD">❤❤❤</span>
+                    <span data-t="hud_health">生命</span>: 
+                    <span class="health-container" id="healthHUD">❤❤❤</span>
                 </div>
-                <div class="hud-item">
-                    <span data-t="hud_time">时间</span> <span id="timeHUD">0.0s</span>
-                </div>
-                <div class="hud-item">
-                    <span data-t="hud_level">难度</span> <span id="levelHUD">EASY</span>
-                </div>
+                <div class="hud-item"><span data-t="hud_time">时间</span>: <span id="timeHUD">0.0s</span></div>
+                <div class="hud-item"><span data-t="hud_level">难度</span>: <span id="levelHUD">EASY</span></div>
                 <div id="shieldHUD" class="hud-item" style="display: none; border-color: #00f2ff; box-shadow: 4px 4px 0px #000, 0 0 10px rgba(0, 242, 255, 0.3);">
-                    <span style="color: var(--text); font-weight: 900;" data-t="hud_shield">护盾</span> <span id="shieldTime" style="color: #00f2ff; font-weight: 900;">0s</span>
+                    <span style="color: var(--text); font-weight: 900;" data-t="hud_shield">护盾</span>: <span id="shieldTime" style="color: #00f2ff; font-weight: 900;">0s</span>
                 </div>
                 <div id="slowTimeHUD" class="hud-item" style="display: none; border-color: #ffcc00; box-shadow: 4px 4px 0px #000, 0 0 10px rgba(255, 204, 0, 0.3);">
-                    <span style="color: var(--text); font-weight: 900;" data-t="hud_slow">减速</span> <span id="slowTimeTimeDisplay" style="color: #ffcc00; font-weight: 900;">0s</span>
-                </div>
+                    <span style="color: var(--text); font-weight: 900;" data-t="hud_slow">减速</span>: <span id="slowTimeTimeDisplay" style="color: #ffcc00; font-weight: 900;">0s</span>
                 </div>
             </div>
+            <div id="gameTip" style="position: absolute; top: 35%; left: 50%; transform: translate(-50%, -50%); font-size: 1.2rem; font-weight: 900; color: #fff; text-shadow: 0 0 10px var(--primary); z-index: 40; pointer-events: none; opacity: 0; transition: opacity 0.5s; white-space: nowrap;">坚持很久了！</div>
+            <div id="musicTip">请不要静音 / Please do not mute</div>
+            <div class="top-right">
+                <div class="icon-btn" onclick="toggleLang()">EN / 中文</div>
+            </div>
             <div id="countdown">3</div>
-            <canvas id="gameCanvas"></canvas>
-            <div id="musicTip" style="position:absolute; bottom:20px; color:rgba(255,255,255,0.3); font-size:0.7rem; pointer-events:none; opacity:0; transition:opacity 1s;">🎵 BGM Playing...</div>
         </div>
 
         <!-- 页面 6: 结算 -->
         <div id="settlementPage" class="page">
             <div class="settlement-card">
-                <h2 class="game-title" style="font-size: 2.5rem;" data-t="game_over">游戏结束</h2>
-                <div style="font-size: 1rem; opacity: 0.8;" data-t="survived">本次生存时间</div>
+                <h2 style="color: var(--primary); font-weight: 900;" data-t="game_over">游戏结束</h2>
+                <div style="font-size: 0.8rem; margin-top: 5px; opacity: 0.8;" data-t="survived">本次生存时间</div>
                 <div class="settlement-time" id="finalTime">0.0s</div>
-                <div class="btn-group">
-                    <button class="btn" onclick="showUploadPage()" data-t="upload">上传成绩</button>
-                    <button class="btn secondary" onclick="showPage('startPage')" data-t="home">首页</button>
+                <div style="display: flex; flex-direction: column; gap: 8px; width: 100%;">
+                    <button class="btn" onclick="showUploadPage()" data-t="btn_upload" style="width: 100%; margin: 0;">上传排行榜</button>
+                    <div class="btn-group">
+                        <button class="btn secondary" onclick="startGame()" data-t="btn_restart" style="flex: 1; margin: 0;">重新开始</button>
+                        <button class="btn secondary" onclick="showPage('startPage')" data-t="btn_home" style="flex: 1; margin: 0;">返回首页</button>
+                    </div>
                 </div>
-                <button class="btn" style="width: 100%; margin-top: 10px;" onclick="startGame()" data-t="restart">再来一局</button>
             </div>
         </div>
 
-        <!-- 页面 7: 上传 -->
+        <!-- 页面 7: 上传成绩 -->
         <div id="uploadPage" class="page">
             <div class="settlement-card">
-                <h2 class="game-title" style="font-size: 2rem;" data-t="upload_title">上传成绩</h2>
-                <div style="font-size: 1.5rem; margin-bottom: 20px; color: var(--primary);" id="uploadScoreDisplay">0.0s</div>
-                <input type="text" id="playerNameInput" class="input-box" maxlength="10" placeholder="输入你的名字">
+                <h2 style="color: var(--primary); font-weight: 900;" data-t="upload_title">上传成绩</h2>
+                <p style="margin: 5px 0; font-size: 0.8rem;"><span data-t="upload_score">本次成绩：</span><b id="uploadScoreDisplay">0.0s</b></p>
+                <input type="text" id="playerNameInput" class="input-box" maxlength="10" placeholder="输入昵称">
+                <p style="font-size: 0.65rem; opacity: 0.6; margin-bottom: 10px;" data-t="upload_tip">相同昵称将自动保留最高成绩</p>
                 <div class="btn-group">
-                    <button class="btn" onclick="confirmUpload()" data-t="confirm">确认上传</button>
-                    <button class="btn secondary" onclick="showPage('settlementPage')" data-t="back">取消</button>
+                    <button class="btn" onclick="confirmUpload()" data-t="confirm_upload" style="flex: 1; margin: 0;">确认上传</button>
+                    <button class="btn secondary" onclick="showPage('settlementPage')" data-t="cancel" style="flex: 1; margin: 0;">取消</button>
                 </div>
             </div>
         </div>
 
-        <!-- 统一页脚 -->
-        <div class="footer-info">
-            @callmexxxiao<br>
-            仅供娱乐 行车驾驶注意安全<br>
-            v 0.1.2
-        </div>
     </div>
 
+    <audio id="bgmPlayer" loop></audio>
+    <script src="leaderboard.js"></script>
     <script>
+        const i18n = {
+            zh: {
+                start: '开始游戏', rank: '排行榜', rank_title: '🏆 荣耀榜', back: '返回', confirm: '确认', select_char: '选择你的角色',
+                go: '出发！', hud_health: '生命', hud_time: '时间', hud_level: '难度', game_over: '游戏结束', survived: '本次生存时间',
+                hud_shield: '护盾', hud_slow: '减速',
+                msg_hp_up: '生命值增加', msg_shield: '护盾开启', msg_clear: '减速效果开启',
+                msg_shield_active: '护盾已激活', msg_hit: '生命值减少', msg_danger: '危险！', msg_close: '好险！',
+                btn_upload: '上传排行榜', btn_restart: '重新开始', btn_home: '返回首页', upload_title: '上传成绩', upload_score: '本次成绩：',
+                confirm_upload: '确认上传', cancel: '取消', upload_success: '上传成功！', upload_tip: '相同昵称将自动保留最高成绩',
+                rule_title: '【游戏说明】',
+                rule_1: '控制角色左右移动躲避障碍物', rule_2: '存活时间越久，难度越高', rule_3: 'PC端：WASD / 方向键移动',
+                rule_4: '移动端：手指左右滑动控制', rule_5: '注意障碍物节奏变化', rule_6: '挑战更长生存时间',
+                disc_title: '【免责声明】',
+                disc_text: '本游戏仅供娱乐与交流体验使用，无任何商业用途。游戏内容均为虚构设计，如有雷同，纯属巧合。部分音频与素材来源于网络，仅用于非商业展示。如涉及版权问题，请联系后删除。感谢每位老师的体验与支持。',
+                levels: ['简单', '普通', '困难', '疯狂', '地狱', '超越神勇'],
+                tips: ['Nice!', 'WOW!', 'Close!', 'Great!', '险！', '漂亮！']
+            },
+            en: {
+                start: 'START', rank: 'RANK', rank_title: '🏆 LEADERBOARD', back: 'BACK', confirm: 'OK', select_char: 'SELECT CHARACTER',
+                go: 'GO!', hud_health: 'HP', hud_time: 'TIME', hud_level: 'LEVEL', game_over: 'GAME OVER', survived: 'SURVIVAL TIME',
+                hud_shield: 'SHIELD', hud_slow: 'SLOW',
+                msg_hp_up: 'HP UP', msg_shield: 'SHIELD ON', msg_clear: 'SLOW TIME!',
+                msg_shield_active: 'SHIELD ACTIVE', msg_hit: 'HP REDUCED!', msg_danger: 'DANGER!', msg_close: 'CLOSE!',
+                btn_upload: 'UPLOAD', btn_restart: 'RESTART', btn_home: 'HOME', upload_title: 'UPLOAD SCORE', upload_score: 'SCORE: ',
+                confirm_upload: 'CONFIRM', cancel: 'CANCEL', upload_success: 'SUCCESS!', upload_tip: 'Same nickname will keep highest score',
+                rule_title: '[ HOW TO PLAY ]',
+                rule_1: 'Move left/right to avoid obstacles', rule_2: 'Difficulty increases over time', rule_3: 'PC: WASD or Arrow Keys',
+                rule_4: 'Mobile: Swipe left/right', rule_5: 'Watch out for rhythm changes', rule_6: 'Challenge for high score',
+                disc_title: '[ DISCLAIMER ]',
+                disc_text: 'This game is for entertainment and experience exchange only, with no commercial use. Content is fictional; any resemblance is coincidental. Materials are from the web for non-commercial display. If copyright issues arise, contact us for removal. Thanks for your support.',
+                levels: ['EASY', 'NORMAL', 'HARD', 'INSANE', 'HELL', 'GODLIKE'],
+                tips: ['Nice!', 'WOW!', 'Close!', 'Great!', 'Ooh!', 'Cool!']
+            }
+        };
+
         const config = {
-            roadWidth: 280,
+            charCount: 12,
+            charSelectPath: 'assets/characters/character_',
+            charModelPath: 'assets/model/',
             bgmList: ['assets/music/bgm1.mp3', 'assets/music/bgm2.mp3', 'assets/music/bgm3.mp3'],
-            characters: [
-                { id: 'c1', name: 'Ace', src: 'assets/characters/character_1.png' },
-                { id: 'c2', name: 'Blade', src: 'assets/characters/character_2.png' },
-                { id: 'c3', name: 'Cyber', src: 'assets/characters/character_3.png' },
-                { id: 'c4', name: 'Dash', src: 'assets/characters/character_4.png' },
-                { id: 'c5', name: 'Echo', src: 'assets/characters/character_5.png' },
-                { id: 'c6', name: 'Flash', src: 'assets/characters/character_6.png' },
-                { id: 'c7', name: 'Ghost', src: 'assets/characters/character_7.png' },
-                { id: 'c8', name: 'Hunter', src: 'assets/characters/character_8.png' },
-                { id: 'c9', name: 'Ion', src: 'assets/characters/character_9.png' },
-                { id: 'c10', name: 'Jolt', src: 'assets/characters/character_10.png' },
-                { id: 'c11', name: 'Kite', src: 'assets/characters/character_11.png' },
-                { id: 'c12', name: 'Luna', src: 'assets/characters/character_12.png' }
-            ],
             items: [
                 { type: 'heart', color: '#ff3388' },
                 { type: 'shield', color: '#00f2ff' },
                 { type: 'clear', color: '#ffcc00' }
             ],
-            themes: [
-                { name: 'night', bg: 'radial-gradient(circle at center, #1a0a0f 0%, #05050a 100%)', road: '#0d0d14', line: '#fff' },
-                { name: 'neon', bg: 'radial-gradient(circle at center, #0a1a1a 0%, #050a0a 100%)', road: '#0d1414', line: '#00f2ff' },
-                { name: 'desert', bg: 'radial-gradient(circle at center, #1a150a 0%, #0a0805 100%)', road: '#14110d', line: '#ffaa00' },
-                { name: 'snow', bg: 'radial-gradient(circle at center, #0a0f1a 0%, #05050a 100%)', road: '#0d1114', line: '#00aaff' }
-            ]
-        };
-
-        const i18n = {
-            zh: {
-                start: '开始游戏', rank: '排行榜', back: '返回', confirm: '确认', go: '出发！',
-                rank_title: '🏆 荣耀榜', rule_title: '【游戏说明】', select_char: '选择你的角色',
-                rule_1: '控制角色左右移动躲避障碍物', rule_2: '存活时间越久，难度越高',
-                rule_3: 'PC端：WASD / 方向键移动', rule_4: '移动端：手指左右滑动控制',
-                rule_5: '收集道具：心、护盾、SAFE MODE', rule_6: '挑战更长生存时间',
-                disc_title: '【免责声明】', disc_text: '本游戏仅供娱乐与交流体验使用，无任何商业用途。',
-                hud_health: '生命', hud_time: '时间', hud_level: '难度', hud_shield: '护盾', hud_slow: '减速',
-                game_over: '游戏结束', survived: '本次生存时间', upload: '上传成绩',
-                home: '首页', restart: '再来一局', upload_title: '上传成绩',
-                upload_success: '上传成功！', levels: ['简单', '普通', '困难', '疯狂', '极速', '超越极限'],
-                msg_hp_up: 'HP UP', msg_shield: 'SHIELD ON', msg_clear: 'SLOW TIME!',
-                msg_slow_time: 'SLOW TIME', msg_slow_time_sub: 'TIME DILATION ACTIVATED', msg_shield_active: 'SHIELD ACTIVE',
-                msg_hit: '生命值减少！', msg_danger: '危险！', msg_nice: '漂亮！', msg_close: '好险！'
-            },
-            en: {
-                start: 'START', rank: 'RANK', back: 'BACK', confirm: 'OK', go: 'GO!',
-                rank_title: '🏆 RANKING', rule_title: '【HOW TO PLAY】', select_char: 'CHOOSE CHARACTER',
-                rule_1: 'Move left/right to avoid obstacles', rule_2: 'Survive longer for higher difficulty',
-                rule_3: 'PC: WASD or Arrow Keys', rule_4: 'Mobile: Swipe to control',
-                rule_5: 'Items: Heart, Shield, SAFE MODE', rule_6: 'Challenge your best time',
-                disc_title: '【DISCLAIMER】', disc_text: 'This game is for entertainment and exchange only.',
-                hud_health: 'HP', hud_time: 'TIME', hud_level: 'LVL', hud_shield: 'SHIELD', hud_slow: 'SLOW',
-                game_over: 'GAME OVER', survived: 'SURVIVED FOR', upload: 'UPLOAD',
-                home: 'HOME', restart: 'RETRY', upload_title: 'UPLOAD SCORE',
-                upload_success: 'Upload Success!', levels: ['EASY', 'NORMAL', 'HARD', 'INSANE', 'SONIC', 'LIMIT'],
-                msg_hp_up: 'HP UP', msg_shield: 'SHIELD ON', msg_clear: 'SLOW TIME!',
-                msg_slow_time: 'SLOW TIME', msg_slow_time_sub: 'TIME DILATION ACTIVATED', msg_shield_active: 'SHIELD ACTIVE',
-                msg_hit: 'HP REDUCED!', msg_danger: 'DANGER!', msg_nice: 'NICE!', msg_close: 'CLOSE!'
-            }
+            roadWidth: 280
         };
 
         let state = {
-            lang: 'zh', gameRunning: false, time: 0, difficulty: 1, health: 3,
-            playerX: 0.5, playerTargetX: 0.5, playerVelX: 0,
-            obstacles: [], items: [], particles: [], afterImages: [],
-            keys: {}, lastObstacleTime: 0, lastItemTime: 0,
-            selectedChar: 'c1', shieldTime: 0, slowTimeTime: 0,
-            themeIndex: 0, nextThemeTime: 30
+            lang: 'zh',
+            gameRunning: false,
+            selectedChar: 1,
+            time: 0,
+            difficulty: 1,
+            health: 3,
+            playerX: 0.5,
+            playerTargetX: 0.5,
+            playerVelX: 0,
+            obstacles: [],
+            items: [],
+            particles: [],
+            afterImages: [],
+            lastObstacleTime: 0,
+            lastItemTime: 0,
+            keys: {},
+            touchStartX: 0,
+            touchStartPlayerX: 0.5,
+            swipeThreshold: 5,
+            nearMissActive: false,
+            lastNearMissTime: 0,
+            hasCollidedThisFrame: false,
+            shieldTime: 0,
+            slowTimeTime: 0
         };
 
-        let canvas, ctx, animationId, bgmPlayer;
+        const canvas = document.getElementById('gameCanvas');
+        const ctx = canvas.getContext('2d');
+        const bgmPlayer = document.getElementById('bgmPlayer');
         const charModelImages = {};
+        let animationId;
 
         function init() {
-            canvas = document.getElementById('gameCanvas');
-            ctx = canvas.getContext('2d');
-            resize();
-            window.addEventListener('resize', resize);
-            bgmPlayer = new Audio();
-            bgmPlayer.loop = true;
-            updateRoadWidth();
-            initI18n();
-            initCharGrid();
-            loadCharImages();
+            renderCharGrid();
+            window.addEventListener('resize', resizeCanvas);
+            resizeCanvas();
+            updateUI();
+
+            // Initial leaderboard cleanup
+            Leaderboard.get();
+
             window.addEventListener('keydown', e => state.keys[e.code] = true);
             window.addEventListener('keyup', e => state.keys[e.code] = false);
-            let touchStartX = 0;
-            canvas.addEventListener('touchstart', e => {
-                touchStartX = e.touches[0].clientX;
-            }, { passive: false });
-            canvas.addEventListener('touchmove', e => {
-                e.preventDefault();
-                const touchX = e.touches[0].clientX;
-                const diff = (touchX - touchStartX) / (config.roadWidth * 0.6); // 提高灵敏度
-                state.playerTargetX = Math.max(0, Math.min(1, state.playerTargetX + diff));
-                touchStartX = touchX;
-            }, { passive: false });
-            renderLeaderboard();
-        }
-
-        function updateRoadWidth() {
-            const isPC = window.innerWidth >= 1024 && window.innerWidth > window.innerHeight;
-            config.roadWidth = isPC ? 450 : Math.min(280, window.innerWidth * 0.85);
-            document.documentElement.style.setProperty('--road-width', config.roadWidth + 'px');
             
-            if (canvas) {
-                const dpr = window.devicePixelRatio || 1;
-                canvas.width = window.innerWidth * dpr;
-                canvas.height = window.innerHeight * dpr;
-                canvas.style.width = window.innerWidth + 'px';
-                canvas.style.height = window.innerHeight + 'px';
-                ctx.scale(dpr, dpr);
-            }
-        }
+            canvas.addEventListener('touchstart', e => {
+                state.touchStartX = e.touches[0].clientX;
+                state.touchStartPlayerX = state.playerTargetX;
+            }, {passive: true});
+            canvas.addEventListener('touchmove', e => {
+                if(!state.gameRunning) return;
+                const deltaX = e.touches[0].clientX - state.touchStartX;
+                const actualDelta = deltaX / config.roadWidth;
+                state.playerTargetX = Math.max(0, Math.min(1, state.touchStartPlayerX + actualDelta));
+                if(e.cancelable) e.preventDefault();
+            }, {passive: false});
 
-        function resize() {
-            updateRoadWidth();
-        }
-
-        function initI18n() {
-            const elements = document.querySelectorAll('[data-t]');
-            elements.forEach(el => {
-                const key = el.getAttribute('data-t');
-                el.innerText = i18n[state.lang][key];
-            });
-            const input = document.getElementById('playerNameInput');
-            if(input) input.placeholder = state.lang === 'zh' ? '输入你的名字' : 'Enter your name';
+            for(let i=1; i<=config.charCount; i++) preloadModel(i);
         }
 
         function toggleLang() {
             state.lang = state.lang === 'zh' ? 'en' : 'zh';
-            initI18n();
+            updateUI();
+        }
+
+        function updateUI() {
+            const t = i18n[state.lang];
+            document.querySelectorAll('[data-t]').forEach(el => {
+                const key = el.getAttribute('data-t');
+                if(t[key]) el.innerText = t[key];
+            });
+            if(document.getElementById('leaderboardPage').classList.contains('active')) {
+                Leaderboard.render('leaderboardList', state.lang);
+            }
+        }
+
+        function preloadModel(id) {
+            if(charModelImages[id]) return;
+            const img = new Image();
+            img.src = `${config.charModelPath}${id}.png`;
+            img.onload = () => { charModelImages[id] = img; };
+            img.onerror = () => {
+                const f = new Image(); f.src = 'data:image/gif;base64,R0lGODlhAQABAIAAAAAAAP///yH5BAEAAAAALAAAAAABAAEAAAIBRAA7';
+                charModelImages[id] = f;
+            };
+        }
+
+        function renderCharGrid() {
+            const grid = document.getElementById('charGrid');
+            grid.innerHTML = '';
+            for(let i=1; i<=config.charCount; i++) {
+                const card = document.createElement('div');
+                card.className = `char-card ${i===state.selectedChar?'selected':''}`;
+                card.onclick = () => {
+                    state.selectedChar = i;
+                    document.querySelectorAll('.char-card').forEach((c, idx) => c.classList.toggle('selected', idx+1 === i));
+                };
+                const img = document.createElement('img');
+                img.src = `${config.charSelectPath}${i}.png`;
+                img.onerror = () => img.src = 'data:image/gif;base64,R0lGODlhAQABAIAAAAAAAP///yH5BAEAAAAALAAAAAABAAEAAAIBRAA7';
+                card.appendChild(img);
+                grid.appendChild(card);
+            }
         }
 
         function showPage(id) {
             document.querySelectorAll('.page').forEach(p => p.classList.remove('active'));
-            document.getElementById(id).classList.add('active');
+            const target = document.getElementById(id);
+            target.classList.add('active');
+            if(id === 'leaderboardPage') Leaderboard.render('leaderboardList', state.lang);
         }
 
-        function initCharGrid() {
-            const grid = document.getElementById('charGrid');
-            grid.innerHTML = '';
-            config.characters.forEach(char => {
-                const card = document.createElement('div');
-                card.className = `char-card ${state.selectedChar === char.id ? 'selected' : ''}`;
-                card.onclick = () => {
-                    state.selectedChar = char.id;
-                    document.querySelectorAll('.char-card').forEach(c => c.classList.remove('selected'));
-                    card.classList.add('selected');
-                };
-                card.innerHTML = `<img src="${char.src}" alt="${char.name}"><div class="char-name-tag">${char.name}</div>`;
-                grid.appendChild(card);
-            });
-        }
-
-        function loadCharImages() {
-            config.characters.forEach((c, index) => {
-                const img = new Image();
-                img.src = `assets/model/${index + 1}.png`;
-                charModelImages[c.id] = img;
-            });
-        }
-
-        const Leaderboard = {
-            get: () => JSON.parse(localStorage.getItem('race_dash_rank') || '[]'),
-            save: (name, time) => {
-                let list = Leaderboard.get();
-                list.push({ name, time: parseFloat(time.toFixed(1)), date: new Date().toLocaleDateString() });
-                list.sort((a, b) => b.time - a.time);
-                localStorage.setItem('race_dash_rank', JSON.stringify(list.slice(0, 10)));
-            }
-        };
-
-        function renderLeaderboard() {
-            const list = Leaderboard.get();
-            const container = document.getElementById('leaderboardList');
-            if(list.length === 0) {
-                container.innerHTML = `<div style="padding: 20px; opacity: 0.5;">${state.lang === 'zh' ? '暂无排名' : 'No Ranking'}</div>`;
-                return;
-            }
-            container.innerHTML = list.map((item, i) => `
-                <div style="display: flex; justify-content: space-between; padding: 10px; border-bottom: 1px solid rgba(255,255,255,0.1); font-size: 0.9rem;">
-                    <span>${i+1}. ${item.name}</span>
-                    <span style="color: var(--primary); font-weight: 900;">${item.time}s</span>
-                </div>
-            `).join('');
+        function resizeCanvas() {
+            const dpr = window.devicePixelRatio || 1;
+            canvas.width = window.innerWidth * dpr;
+            canvas.height = window.innerHeight * dpr;
+            ctx.scale(dpr, dpr);
+            canvas.style.width = window.innerWidth + 'px';
+            canvas.style.height = window.innerHeight + 'px';
+            config.roadWidth = Math.min(window.innerWidth * 0.85, 280);
         }
 
         function playRandomBGM() {
@@ -626,17 +572,12 @@
             state.obstacles = []; state.items = []; state.particles = []; state.afterImages = [];
             state.lastObstacleTime = 0; state.lastItemTime = 0;
             state.playerX = 0.5; state.playerTargetX = 0.5; state.playerVelX = 0;
-            state.keys = {}; state.shieldTime = 0; state.slowTimeTime = 0;
-            state.themeIndex = 0; state.nextThemeTime = 30;
-            updateHealthHUD();
+            state.keys = {};
+            state.nearMissActive = false;
+            state.shieldTime = 0; state.slowTimeTime = 0;
             document.getElementById('shieldHUD').style.display = 'none';
             document.getElementById('slowTimeHUD').style.display = 'none';
-            document.getElementById('dynamicBg').style.background = config.themes[0].bg;
-        }
-
-        function updateHealthHUD() {
-            const el = document.getElementById('healthHUD');
-            el.innerHTML = '❤'.repeat(state.health);
+            updateHealthHUD();
         }
 
         function showCenterMsg(text, x, y) {
@@ -649,6 +590,10 @@
             setTimeout(() => msg.remove(), 1200);
         }
 
+        function updateHealthHUD() {
+            document.getElementById('healthHUD').innerText = "❤".repeat(state.health);
+        }
+
         function gameLoop() {
             if(!state.gameRunning) return;
             update();
@@ -658,20 +603,14 @@
 
         function update() {
             state.time += 1/60;
-            // 平滑难度曲线：初始 1，约 120秒达到 10+ 的平稳高压期
+            state.hasCollidedThisFrame = false;
+            
+            // Difficulty Curve
             state.difficulty = 1 + Math.min(10, state.time * 0.08);
-
             document.getElementById('timeHUD').innerText = state.time.toFixed(1) + 's';
             const levels = i18n[state.lang].levels;
-            // 更加平滑的等级显示切换
             const idx = Math.min(Math.floor(state.difficulty / 1.8), levels.length - 1);
             document.getElementById('levelHUD').innerText = levels[idx];
-
-            if (state.time > state.nextThemeTime) {
-                state.themeIndex = (state.themeIndex + 1) % config.themes.length;
-                state.nextThemeTime += 40;
-                document.getElementById('dynamicBg').style.background = config.themes[state.themeIndex].bg;
-            }
 
             if (state.shieldTime > 0) {
                 state.shieldTime -= 1/60;
@@ -684,19 +623,22 @@
                 if (state.slowTimeTime <= 0) document.getElementById('slowTimeHUD').style.display = 'none';
             }
 
-            const moveSpeed = 0.018;
+            // Player Move
+            const moveSpeed = 0.035;
             if(state.keys['ArrowLeft'] || state.keys['KeyA']) state.playerTargetX -= moveSpeed;
             if(state.keys['ArrowRight'] || state.keys['KeyD']) state.playerTargetX += moveSpeed;
             state.playerTargetX = Math.max(0, Math.min(1, state.playerTargetX));
             state.playerX += (state.playerTargetX - state.playerX) * 0.35;
             state.playerVelX = (state.playerTargetX - state.playerX);
 
-            const spawnRate = Math.max(10, 38 - state.difficulty * 2.8);
+            // Obstacles
+            const spawnRate = Math.max(10, 32 - state.difficulty * 3.5);
             if(state.time * 60 - state.lastObstacleTime > spawnRate) {
                 spawnWave();
                 state.lastObstacleTime = state.time * 60;
             }
 
+            // Items spawn
             let itemBaseRate = 550; 
             if (state.time > 20 && state.time <= 60) itemBaseRate = 450;
             else if (state.time > 60) itemBaseRate = 380;
@@ -706,39 +648,51 @@
                 state.lastItemTime = state.time * 60;
             }
 
-            let fallSpeed = 6.5 + Math.min(state.difficulty, 10) * 1.6;
+            let fallSpeed = 6.5 + state.difficulty * 2.2;
             if (state.slowTimeTime > 0) fallSpeed *= 0.35;
             state.obstacles.forEach(obs => obs.y += fallSpeed);
             state.items.forEach(item => item.y += fallSpeed * 0.85);
-            state.obstacles = state.obstacles.filter(obs => obs.y < canvas.height + 100);
-            state.items = state.items.filter(item => item.y < canvas.height + 100);
+            
+            state.obstacles = state.obstacles.filter(obs => obs.y < window.innerHeight + 50);
+            state.items = state.items.filter(item => item.y < window.innerHeight + 100);
 
-            if(state.time * 60 % 5 < 1) state.afterImages.push({ x: state.playerX, y: canvas.height - 120, life: 1.0 });
-            state.afterImages.forEach((img, i) => { img.life -= 0.1; if(img.life <= 0) state.afterImages.splice(i, 1); });
-            state.particles.forEach((p, i) => { p.x += p.vx; p.y += p.vy; p.life -= 0.04; if(p.life <= 0) state.particles.splice(i, 1); });
+            // Particles & Trails
+            if(state.time * 60 % 5 < 1) {
+                state.afterImages.push({ x: state.playerX, y: window.innerHeight - 120, life: 1.0 });
+            }
+            state.afterImages.forEach((img, i) => { img.life -= 0.12; if(img.life <= 0) state.afterImages.splice(i, 1); });
+            state.particles.forEach((p, i) => { p.x += p.vx; p.y += p.vy; p.life -= 0.05; if(p.life <= 0) state.particles.splice(i, 1); });
+
+            if(state.time > 60) bgmPlayer.volume = Math.min(0.8, 0.5 + (state.time - 60) * 0.005);
+
             checkCollisions();
         }
 
         function spawnWave() {
-            const roadLeft = (canvas.width - config.roadWidth) / 2;
+            const roadLeft = (window.innerWidth - config.roadWidth) / 2;
             const laneCount = 4;
-            const laneWidth = config.roadWidth / laneCount;
+            let lanes = [0, 1, 2, 3];
+            const freeLanesCount = state.difficulty > 4 ? 1 : 2;
+            let obstacleLanes = [];
             
-            // 数量平滑增加：难度增加后有更高概率同时出现两个障碍
-            let obstacleCount = 1;
-            if (Math.random() < (state.difficulty - 1.5) / 11) obstacleCount = 2;
-            
-            let availableLanes = [0, 1, 2, 3];
-            let chosenLanes = [];
-            const maxObstacles = Math.min(obstacleCount, laneCount - 1);
-            for(let i = 0; i < maxObstacles; i++) {
-                const idx = Math.floor(Math.random() * availableLanes.length);
-                chosenLanes.push(availableLanes.splice(idx, 1)[0]);
+            const pattern = Math.random();
+            if(pattern < 0.3) {
+                const count = Math.min(laneCount - freeLanesCount, Math.floor(Math.random() * 3) + 1);
+                for(let i=0; i<count; i++) {
+                    const idx = Math.floor(Math.random() * lanes.length);
+                    obstacleLanes.push(lanes.splice(idx, 1)[0]);
+                }
+            } else if(pattern < 0.6) {
+                const start = Math.floor(Math.random() * 2);
+                obstacleLanes = [start, start + 1, start + 2].slice(0, laneCount - freeLanesCount);
+            } else {
+                obstacleLanes = Math.random() > 0.5 ? [0, 3] : [1, 2];
+                if(state.difficulty < 3) obstacleLanes = [Math.random() > 0.5 ? 0 : 3];
             }
-            chosenLanes.forEach(lane => {
+
+            obstacleLanes.forEach(lane => {
                 const r = Math.random();
                 let type;
-                // 类型权重：路障(高), 能量栅栏(中), 减速桶(中低), 机械墙(后期低概率出现)
                 const wallProb = Math.min(0.18, Math.max(0, (state.difficulty - 3) * 0.03)); 
                 if (r < wallProb) type = 'wall';
                 else if (r < 0.22 + wallProb) type = 'barrel';
@@ -746,10 +700,12 @@
                 else type = 'barrier';
 
                 state.obstacles.push({
-                    x: roadLeft + (lane + 0.5) * laneWidth, 
-                    y: -120, // 初始位置从屏幕上方淡入
-                    size: (30 + Math.random() * 15) * (window.innerWidth >= 1024 ? 1.3 : 1),
-                    shape: type, 
+                    x: roadLeft + (lane + 0.5) * (config.roadWidth/4),
+                    y: -60,
+                    size: 26 + Math.random() * 12,
+                    color: '#ff3355',
+                    nearMissed: false,
+                    shape: type,
                     rotation: 0
                 });
             });
@@ -757,32 +713,27 @@
 
         function spawnItem() {
             if (state.items.length >= 2) return;
-            const roadLeft = (canvas.width - config.roadWidth) / 2;
+            const roadLeft = (window.innerWidth - config.roadWidth) / 2;
             const lane = Math.floor(Math.random() * 4);
             let itemType;
             const r = Math.random();
             
             if (state.time < 20) {
-                // 前期：少量SLOW TIME (0.60), 少量爱心 (0.35), 极低概率护盾 (0.05)
-                if (r < 0.60) itemType = 'clear'; // SLOW TIME
+                if (r < 0.60) itemType = 'clear';
                 else if (r < 0.95) itemType = 'heart';
                 else itemType = 'shield';
             } else if (state.time < 60) {
-                // 中期：逐渐增加 SLOW TIME (0.55), 爱心 (0.35), 偶尔护盾 (0.10)
                 if (r < 0.55) itemType = 'clear';
                 else if (r < 0.90) itemType = 'heart';
                 else itemType = 'shield';
             } else {
-                // 高压阶段：SLOW TIME (0.50), 爱心 (0.35), 护盾 (0.15)
                 if (r < 0.50) itemType = 'clear';
                 else if (r < 0.85) itemType = 'heart';
                 else itemType = 'shield';
             }
             
             const itemBase = config.items.find(it => it.type === itemType);
-            const isPC = window.innerWidth >= 1024 && window.innerWidth > window.innerHeight;
-            // 整体尺寸微调，相较原有更小巧精致，不挡人物与赛道
-            const baseSize = isPC ? 32 : 22;
+            const baseSize = 22;
             
             state.items.push({
                 x: roadLeft + (lane + 0.5) * (config.roadWidth/4), y: -100,
@@ -790,68 +741,10 @@
             });
         }
 
-        function checkCollisions() {
-            const px = state.playerX * config.roadWidth + (canvas.width - config.roadWidth) / 2;
-            const py = canvas.height - 120;
-            const pSize = 35 * (window.innerWidth >= 1024 ? 1.5 : 1); 
-            
-            for(let i = state.obstacles.length - 1; i >= 0; i--) {
-                const obs = state.obstacles[i];
-                const dx = px - obs.x;
-                const dy = py - obs.y;
-                const dist = Math.sqrt(dx * dx + dy * dy);
-                const s = obs.size;
-                
-                let hasHit = false;
-                
-                // 针对不同形状应用更精确的碰撞判定
-                if (obs.shape === 'wall') {
-                    // 压缩墙：检测两侧模块，中间安全缝隙约为 s * 0.5 宽度
-                    if (Math.abs(dy) < s * 0.4) {
-                        if (Math.abs(dx) > s * 0.5 && Math.abs(dx) < s * 1.0) {
-                            hasHit = true;
-                        }
-                    }
-                } else if (obs.shape === 'fence') {
-                    // 能量栅栏：整个横向跨度较大
-                    if (Math.abs(dy) < s * 0.25 && Math.abs(dx) < s * 0.75) {
-                        hasHit = true;
-                    }
-                } else if (obs.shape === 'barrel') {
-                    // 减速桶：圆形判定，略微宽松
-                    if (dist < (pSize + s) * 0.4) {
-                        hasHit = true;
-                    }
-                } else {
-                    // 默认路障判定
-                    if (dist < (pSize + s) * 0.45) {
-                        hasHit = true;
-                    }
-                }
-
-                if(hasHit) {
-                    if (state.shieldTime > 0) {
-                        state.obstacles.splice(i, 1);
-                        showCenterMsg(state.lang === 'zh' ? '护盾抵挡！' : 'SHIELD BLOCK!', obs.x, obs.y);
-                    } else {
-                        onHit(obs);
-                        state.obstacles.splice(i, 1);
-                    }
-                }
-            }
-            for(let i = state.items.length - 1; i >= 0; i--) {
-                const item = state.items[i];
-                const dist = Math.sqrt((px - item.x)**2 + (py - item.y)**2);
-                if (dist < (pSize + item.size) * 0.5) {
-                    onPickItem(item);
-                    state.items.splice(i, 1);
-                }
-            }
-        }
-
         function onPickItem(item) {
-            const px = state.playerX * config.roadWidth + (canvas.width - config.roadWidth) / 2;
-            const py = canvas.height - 120;
+            const roadLeft = (window.innerWidth - config.roadWidth) / 2;
+            const px = state.playerX * config.roadWidth + roadLeft;
+            const py = window.innerHeight - 120;
             const t = i18n[state.lang];
             if (item.type === 'heart') {
                 state.health = Math.min(5, state.health + 1);
@@ -871,21 +764,89 @@
             }
             if(window.navigator.vibrate) window.navigator.vibrate(50);
         }
+        
+        function checkCollisions() {
+            const roadLeft = (window.innerWidth - config.roadWidth) / 2;
+            const px = roadLeft + state.playerX * config.roadWidth;
+            const py = window.innerHeight - 120;
+            const pSize = 35;
+            
+            state.nearMissActive = false;
+
+            for(let i = state.obstacles.length - 1; i >= 0; i--) {
+                const obs = state.obstacles[i];
+                const dx = Math.abs(px - obs.x);
+                const dy = Math.abs(py - obs.y);
+                const dist = Math.sqrt((px - obs.x)**2 + (py - obs.y)**2);
+                const s = obs.size;
+                
+                let hasHit = false;
+                // Enhanced collision detection based on shape from index.html
+                if (obs.shape === 'wall') {
+                    if (Math.abs(dy) < s * 0.4) {
+                        if (Math.abs(dx) > s * 0.5 && Math.abs(dx) < s * 1.0) hasHit = true;
+                    }
+                } else if (obs.shape === 'fence') {
+                    if (Math.abs(dy) < s * 0.25 && Math.abs(dx) < s * 0.75) hasHit = true;
+                } else if (obs.shape === 'barrel') {
+                    if (dist < (pSize + s) * 0.4) hasHit = true;
+                } else {
+                    if (dist < (pSize + s) * 0.45) hasHit = true;
+                }
+                
+                if(hasHit) {
+                    if (state.shieldTime > 0) {
+                        state.obstacles.splice(i, 1);
+                        showCenterMsg(state.lang === 'zh' ? '护盾抵挡！' : 'SHIELD BLOCK!', obs.x, obs.y);
+                    } else {
+                        state.hasCollidedThisFrame = true;
+                        onHit(obs);
+                        return;
+                    }
+                }
+
+                // Near Miss Logic: Only if NO collision happened this frame
+                if(!obs.nearMissed && dx < 45 && dy < 50) {
+                    state.nearMissActive = true;
+                    if(!state.hasCollidedThisFrame && dx < 35 && dy < 42 && state.time - state.lastNearMissTime > 2.0) {
+                        obs.nearMissed = true;
+                        showComboTip(px, py);
+                        state.lastNearMissTime = state.time;
+                    }
+                }
+            }
+
+            for(let i = state.items.length - 1; i >= 0; i--) {
+                const item = state.items[i];
+                const dist = Math.sqrt((px - item.x)**2 + (py - item.y)**2);
+                if (dist < (pSize + item.size) * 0.5) {
+                    onPickItem(item);
+                    state.items.splice(i, 1);
+                }
+            }
+        }
+
+        function showComboTip(x, y) {
+            const tips = i18n[state.lang].tips;
+            const tip = document.createElement('div');
+            tip.className = 'combo-tip';
+            tip.innerText = tips[Math.floor(Math.random() * tips.length)];
+            tip.style.left = x + 'px';
+            tip.style.top = (y - 40) + 'px';
+            document.getElementById('app').appendChild(tip);
+            setTimeout(() => tip.remove(), 800);
+        }
 
         function onHit(obs) {
             state.health--;
             updateHealthHUD();
             document.body.classList.add('flash-red');
-            setTimeout(() => document.body.classList.remove('flash-red'), 300);
-            const healthEl = document.getElementById('healthHUD');
-            healthEl.classList.add('health-hit');
-            setTimeout(() => healthEl.classList.remove('health-hit'), 300);
-            const px = state.playerX * config.roadWidth + (canvas.width - config.roadWidth) / 2;
-            const py = canvas.height - 120;
-            const msgs = [i18n[state.lang].msg_hit, i18n[state.lang].msg_danger, i18n[state.lang].msg_close];
-            showCenterMsg(msgs[Math.floor(Math.random() * msgs.length)], px, py - 30);
+            setTimeout(() => document.body.classList.remove('flash-red'), 200);
             if(window.navigator.vibrate) window.navigator.vibrate(100);
-            for(let i=0; i<20; i++) state.particles.push({ x: obs.x, y: obs.y, vx: (Math.random()-0.5)*25, vy: (Math.random()-0.5)*25, life: 1.2 });
+            for(let i=0; i<10; i++) {
+                state.particles.push({ x: obs.x, y: obs.y, vx: (Math.random()-0.5)*15, vy: (Math.random()-0.5)*15, life: 1.0 });
+            }
+            state.obstacles = state.obstacles.filter(o => o !== obs);
             if(state.health <= 0) gameOver();
         }
 
@@ -907,7 +868,7 @@
             const name = nameInput.value.trim() || 'Anonymous';
             Leaderboard.save(name, state.time);
             showToast(i18n[state.lang].upload_success);
-            setTimeout(() => { renderLeaderboard(); showPage('leaderboardPage'); }, 500);
+            setTimeout(() => showPage('leaderboardPage'), 500);
         }
 
         function showToast(msg) {
@@ -919,9 +880,11 @@
         }
 
         function draw() {
-            ctx.clearRect(0, 0, canvas.width, canvas.height);
+            ctx.clearRect(0, 0, window.innerWidth, window.innerHeight);
             drawRoad();
             drawParticles();
+            
+            // Draw Items
             state.items.forEach(item => {
                 ctx.save();
                 ctx.translate(item.x, item.y);
@@ -993,7 +956,7 @@
                     ctx.fill();
                     
                 } else if (item.type === 'clear') {
-                    // 减速道具 (SLOW TIME)：赛车减速带 / 限速装置，黑红霓虹科技赛道风
+                    // 减速道具 (SLOW TIME)：黑红霓虹科技赛道风
                     const s = item.size;
                     const w = s * 1.25;
                     const h = s * 0.45;
@@ -1039,12 +1002,14 @@
                 }
                 ctx.restore();
             });
+
+            // Draw Obstacles
             state.obstacles.forEach(obs => {
                 ctx.save();
                 ctx.translate(obs.x, obs.y);
                 const s = obs.size;
 
-                // 1. 接地感：强化地面投影阴影 (更深、更实)
+                // 1. 接地感：强化地面投影阴影
                 ctx.save();
                 ctx.fillStyle = 'rgba(0, 0, 0, 0.6)';
                 ctx.scale(1, 0.4); 
@@ -1055,9 +1020,13 @@
 
                 // 2. 绘制具体障碍物
                 if (obs.shape === 'barrier') {
-                    // 障碍物1: 危险路障 (重型施工感)
+                    // 障碍物1: 危险路障 (重型红黑风格)
                     ctx.shadowBlur = 12;
                     ctx.shadowColor = '#ff0000';
+                    
+                    ctx.fillStyle = '#0a0a0f'; // 黑色主体
+                    ctx.strokeStyle = '#ff3355'; // 红色描边
+                    ctx.lineWidth = 2;
                     
                     ctx.beginPath();
                     ctx.moveTo(-s * 0.5, s * 0.35);
@@ -1068,10 +1037,10 @@
                     ctx.fill();
                     ctx.stroke();
 
-                    // 核心区域警示条纹
+                    // 核心区域红黑警示条纹
                     ctx.save();
                     ctx.clip();
-                    ctx.fillStyle = '#ffcc00';
+                    ctx.fillStyle = '#ff3355'; // 红色条纹
                     const stripeW = 7;
                     for(let x = -s; x < s; x += stripeW * 2.5) {
                         ctx.save();
@@ -1083,7 +1052,7 @@
                     ctx.restore();
 
                 } else if (obs.shape === 'fence') {
-                    // 障碍物2: 机械能量柱 (工业封锁感)
+                    // 障碍物2: 机械能量柱
                     const pW = s * 0.25;
                     
                     // 底部连接座
@@ -1091,9 +1060,9 @@
                     ctx.fillRect(-s * 0.8, s * 0.3, pW * 1.2, s * 0.15);
                     ctx.fillRect(s * 0.8 - pW * 1.2, s * 0.3, pW * 1.2, s * 0.15);
 
-                    // 左右重型机械柱
+                    // 左右重型机械柱 (红黑配色)
                     ctx.fillStyle = '#080808';
-                    ctx.strokeStyle = '#ff0000';
+                    ctx.strokeStyle = '#ff3355';
                     ctx.lineWidth = 2;
                     ctx.beginPath();
                     ctx.roundRect(-s * 0.75, -s * 0.45, pW, s * 0.85, 2);
@@ -1109,10 +1078,10 @@
                     ctx.fillRect(s * 0.7 - pW * 0.6, -s * 0.3, pW * 0.6, s * 0.6);
                     ctx.globalAlpha = 1;
 
-                    // 危险激光线 (高频闪烁)
+                    // 危险激光线 (红色闪烁)
                     ctx.shadowBlur = 15;
-                    ctx.shadowColor = '#ff0000';
-                    ctx.strokeStyle = '#ff0000';
+                    ctx.shadowColor = '#ff3355';
+                    ctx.strokeStyle = '#ff3355';
                     ctx.lineWidth = 4 + Math.sin(state.time * 50) * 2;
                     ctx.beginPath();
                     ctx.moveTo(-s * 0.75 + pW, 0);
@@ -1124,9 +1093,9 @@
                     ctx.stroke();
 
                 } else if (obs.shape === 'barrel') {
-                    // 障碍物3: 重型安全桶 (体积小, 压迫感强)
+                    // 障碍物3: 重型安全桶 (黑身红环)
                     ctx.shadowBlur = 8;
-                    ctx.shadowColor = '#ff0000';
+                    ctx.shadowColor = '#ff3355';
                     
                     // 黑色重型底盘
                     ctx.fillStyle = '#000';
@@ -1134,20 +1103,20 @@
                     ctx.ellipse(0, s * 0.4, s * 0.5, s * 0.2, 0, 0, Math.PI * 2);
                     ctx.fill();
 
-                    // 桶身 (黑黄红色混搭)
-                    ctx.fillStyle = '#ffcc00';
+                    // 桶身 (纯黑)
+                    ctx.fillStyle = '#0a0a0a';
                     ctx.beginPath();
                     ctx.ellipse(0, 0, s * 0.45, s * 0.6, 0, 0, Math.PI * 2);
                     ctx.fill();
                     
-                    // 黑色加固环
-                    ctx.fillStyle = '#050505';
+                    // 红色警示环 (顶部与中部)
+                    ctx.fillStyle = '#ff3355';
                     ctx.fillRect(-s * 0.48, -s * 0.3, s * 0.96, s * 0.15);
                     ctx.fillRect(-s * 0.48, s * 0.1, s * 0.96, s * 0.15);
                     
-                    // 红色警示灯带 (中部环绕)
+                    // 红色核心光带
                     const lightAlpha = 0.6 + Math.sin(state.time * 8) * 0.4;
-                    ctx.fillStyle = `rgba(255, 0, 0, ${lightAlpha})`;
+                    ctx.fillStyle = `rgba(255, 51, 85, ${lightAlpha})`;
                     ctx.shadowBlur = 15;
                     ctx.fillRect(-s * 0.5, -s * 0.05, s, s * 0.1);
                     
@@ -1156,117 +1125,143 @@
                     ctx.beginPath();
                     ctx.ellipse(0, -s * 0.5, s * 0.35, s * 0.12, 0, 0, Math.PI * 2);
                     ctx.fill();
-                    // 顶部小红灯
-                    ctx.fillStyle = '#ff0000';
-                    ctx.beginPath();
-                    ctx.arc(0, -s * 0.55, 3, 0, Math.PI * 2);
-                    ctx.fill();
 
                 } else if (obs.shape === 'wall') {
-                    // 障碍物4: 机械压缩墙 (巨型门禁感)
+                    // 障碍物4: 机械压缩墙 (红黑工业感)
                     ctx.shadowBlur = 20;
-                    ctx.shadowColor = 'rgba(255, 0, 0, 0.3)';
+                    ctx.shadowColor = 'rgba(255, 51, 85, 0.4)';
                     
-                    // 整体黑色工业结构
                     ctx.fillStyle = '#050505';
-                    ctx.strokeStyle = '#ff0000';
+                    ctx.strokeStyle = '#ff3355';
                     ctx.lineWidth = 3;
                     
-                    // 左侧巨型臂
+                    // 左右重型模块
                     ctx.beginPath();
                     ctx.roundRect(-s * 1.0, -s * 0.5, s * 0.5, s * 1.0, 4);
-                    ctx.fill();
-                    ctx.stroke();
-                    
-                    // 右侧重型模块
-                    ctx.beginPath();
                     ctx.roundRect(s * 0.5, -s * 0.5, s * 0.5, s * 1.0, 4);
                     ctx.fill();
                     ctx.stroke();
                     
-                    // 能量连接指示线
-                    ctx.strokeStyle = 'rgba(255, 51, 85, 0.6)';
+                    // 能量扫描红线
+                    ctx.strokeStyle = 'rgba(255, 51, 85, 0.8)';
                     ctx.setLineDash([4, 4]);
+                    const scanY = Math.sin(state.time * 5) * s * 0.4;
                     ctx.beginPath();
-                    ctx.moveTo(-s * 0.5, -s * 0.3); ctx.lineTo(-s * 0.5, s * 0.3);
-                    ctx.moveTo(s * 0.5, -s * 0.3); ctx.lineTo(s * 0.5, s * 0.3);
+                    ctx.moveTo(-s, scanY); ctx.lineTo(-s * 0.5, scanY);
+                    ctx.moveTo(s * 0.5, scanY); ctx.lineTo(s, scanY);
                     ctx.stroke();
                     ctx.setLineDash([]);
                 }
                 ctx.restore();
             });
+
             drawPlayer();
         }
 
         function drawRoad() {
-            const roadLeft = (canvas.width - config.roadWidth) / 2;
-            const scrollSpeed = 8 + state.difficulty * 1.5;
-            const currentTheme = config.themes[state.themeIndex];
-            const prevTheme = config.themes[(state.themeIndex + config.themes.length - 1) % config.themes.length];
-            if (!state.gameRunning) { drawThemeLayer(config.themes[0], 0, canvas.height, roadLeft, scrollSpeed); return; }
-            const themeProgress = Math.min(1, (state.time - (state.nextThemeTime - 40)) / 5);
-            const splitY = canvas.height * themeProgress;
-            drawThemeLayer(prevTheme, splitY, canvas.height - splitY, roadLeft, scrollSpeed);
-            drawThemeLayer(currentTheme, 0, splitY, roadLeft, scrollSpeed);
-        }
-
-        function drawThemeLayer(theme, startY, height, roadLeft, scrollSpeed) {
-            if (height <= 0) return;
-            ctx.save(); ctx.beginPath(); ctx.rect(0, startY, canvas.width, height); ctx.clip();
-            ctx.fillStyle = 'rgba(0,0,0,0.5)'; ctx.fillRect(0, startY, roadLeft, height); ctx.fillRect(roadLeft + config.roadWidth, startY, canvas.width, height);
-            ctx.fillStyle = theme.road; ctx.fillRect(roadLeft, startY, config.roadWidth, height);
-            ctx.strokeStyle = 'rgba(255, 255, 255, 0.03)'; ctx.lineWidth = 1;
-            for(let x = roadLeft + 20; x < roadLeft + config.roadWidth; x += 40) { ctx.beginPath(); ctx.moveTo(x, startY); ctx.lineTo(x, startY + height); ctx.stroke(); }
-            const zebraH = 60; const offset = (state.time * 60 * scrollSpeed) % (zebraH * 2);
-            for(let y = -zebraH * 2 + offset; y < canvas.height; y += zebraH * 2) {
-                if (y < startY - zebraH || y > startY + height) continue;
-                ctx.fillStyle = theme.line; ctx.shadowBlur = 10; ctx.shadowColor = theme.line;
-                ctx.fillRect(roadLeft - 6, y, 6, zebraH); ctx.fillRect(roadLeft + config.roadWidth, y, 6, zebraH);
-                ctx.fillStyle = 'rgba(255, 51, 85, 0.6)'; ctx.shadowColor = '#ff3355';
-                ctx.fillRect(roadLeft - 6, y + zebraH, 6, zebraH); ctx.fillRect(roadLeft + config.roadWidth, y + zebraH, 6, zebraH);
-                ctx.shadowBlur = 0;
+            const roadLeft = (window.innerWidth - config.roadWidth) / 2;
+            ctx.fillStyle = '#05050a';
+            ctx.fillRect(0, 0, roadLeft, window.innerHeight);
+            ctx.fillRect(roadLeft + config.roadWidth, 0, window.innerWidth, window.innerHeight);
+            ctx.fillStyle = '#0d0d14';
+            ctx.fillRect(roadLeft, 0, config.roadWidth, window.innerHeight);
+            
+            const zebraH = 40;
+            const scrollSpeed = 6 + state.difficulty + (state.time > 30 ? (state.time - 30) * 0.1 : 0);
+            const offset = (state.time * 60 * scrollSpeed) % (zebraH * 2);
+            for(let y = -zebraH * 2 + offset; y < window.innerHeight; y += zebraH * 2) {
+                ctx.fillStyle = '#fff';
+                ctx.fillRect(roadLeft - 8, y, 8, zebraH);
+                ctx.fillRect(roadLeft + config.roadWidth, y, 8, zebraH);
+                ctx.fillStyle = '#ff3355';
+                ctx.fillRect(roadLeft - 8, y + zebraH, 8, zebraH);
+                ctx.fillRect(roadLeft + config.roadWidth, y + zebraH, 8, zebraH);
             }
-            ctx.strokeStyle = 'rgba(255,255,255,0.1)'; ctx.setLineDash([20, 80]); ctx.lineDashOffset = -(state.time * 60 * scrollSpeed);
-            for(let i=1; i<4; i++) { const lx = roadLeft + i * (config.roadWidth/4); ctx.beginPath(); ctx.moveTo(lx, startY); ctx.lineTo(lx, startY + height); ctx.stroke(); }
+
+            ctx.strokeStyle = 'rgba(255,255,255,0.05)';
+            ctx.setLineDash([20, 40]);
+            ctx.lineDashOffset = -(state.time * 60 * scrollSpeed);
+            for(let i=1; i<4; i++) {
+                ctx.beginPath();
+                const lx = roadLeft + i * (config.roadWidth/4);
+                ctx.moveTo(lx, 0); ctx.lineTo(lx, window.innerHeight);
+                ctx.stroke();
+            }
             ctx.setLineDash([]);
-            ctx.restore();
         }
 
         function drawParticles() {
-            state.particles.forEach(p => { ctx.fillStyle = `rgba(255,51,85,${p.life})`; ctx.beginPath(); ctx.arc(p.x, p.y, 3 * p.life, 0, Math.PI*2); ctx.fill(); });
+            state.particles.forEach(p => {
+                ctx.fillStyle = `rgba(255,51,85,${p.life})`;
+                ctx.beginPath(); ctx.arc(p.x, p.y, 2 * p.life, 0, Math.PI*2); ctx.fill();
+            });
         }
 
         function drawPlayer() {
-            const roadLeft = (canvas.width - config.roadWidth) / 2;
-            const floatY = Math.sin(state.time * 4) * 3;
+            const roadLeft = (window.innerWidth - config.roadWidth) / 2;
+            // Smoother and slower floating (0.1 frequency instead of previous higher ones)
+            const floatY = Math.sin(state.time * 3) * (2.0 + state.difficulty * 0.2);
             const img = charModelImages[state.selectedChar];
-            const baseWidth = (window.innerWidth >= 1024 ? 95 : 65);
-            let charW = baseWidth, charH = baseWidth;
-            if(img && img.complete && img.naturalWidth !== 0) charH = (img.naturalHeight / img.naturalWidth) * charW;
-            state.afterImages.forEach(trail => {
-                ctx.save(); ctx.translate(roadLeft + trail.x * config.roadWidth, trail.y + floatY); ctx.globalAlpha = trail.life * 0.2;
-                ctx.filter = 'brightness(0) invert(1) sepia(1) saturate(10000%) hue-rotate(-30deg)';
-                if(img && img.complete) ctx.drawImage(img, -charW/2, -charH/2, charW, charH); ctx.restore();
-            });
-            const x = roadLeft + state.playerX * config.roadWidth, y = canvas.height - 120 + floatY;
-            ctx.save(); ctx.translate(x, y);
-            if (state.shieldTime > 0) {
-                ctx.strokeStyle = '#00f2ff'; ctx.lineWidth = 4; ctx.shadowBlur = 15; ctx.shadowColor = '#00f2ff';
-                ctx.beginPath(); ctx.arc(0, 0, charW * 0.7, 0, Math.PI*2); ctx.stroke();
-                ctx.globalAlpha = 0.3 + Math.sin(state.time * 10) * 0.2; ctx.fillStyle = '#00f2ff'; ctx.fill(); ctx.globalAlpha = 1;
-            }
-            const flameH = 15 + Math.random() * 25;
-            const grad = ctx.createLinearGradient(0, charH/4, 0, charH/4 + flameH);
-            grad.addColorStop(0, 'rgba(255, 51, 85, 0.8)'); grad.addColorStop(1, 'transparent');
-            ctx.fillStyle = grad; ctx.beginPath(); ctx.moveTo(-charW/6, charH/4); ctx.lineTo(0, charH/4 + flameH); ctx.lineTo(charW/6, charH/4); ctx.fill();
+            
+            const baseWidth = Math.min(window.innerWidth * 0.18, 78);
+            let charW = baseWidth;
+            let charH = baseWidth;
             if(img && img.complete && img.naturalWidth !== 0) {
-                ctx.shadowBlur = 15; ctx.shadowColor = state.shieldTime > 0 ? '#00f2ff' : 'rgba(255, 51, 85, 0.6)';
+                charH = (img.naturalHeight / img.naturalWidth) * charW;
+            }
+
+            state.afterImages.forEach(trail => {
+                ctx.save();
+                ctx.translate(roadLeft + trail.x * config.roadWidth, trail.y + floatY);
+                ctx.globalAlpha = trail.life * 0.25;
+                ctx.filter = 'brightness(0) invert(1) sepia(1) saturate(10000%) hue-rotate(-30deg)';
+                if(img && img.complete && img.naturalWidth !== 0) ctx.drawImage(img, -charW/2, -charH/2, charW, charH);
+                ctx.restore();
+            });
+
+            const x = roadLeft + state.playerX * config.roadWidth;
+            const y = window.innerHeight - 120 + floatY;
+
+            ctx.save();
+            ctx.translate(x, y);
+
+            if (state.shieldTime > 0) {
+                ctx.strokeStyle = '#00f2ff';
+                ctx.lineWidth = 3;
+                ctx.shadowBlur = 15;
+                ctx.shadowColor = '#00f2ff';
+                ctx.beginPath();
+                ctx.arc(0, 0, charW * 0.7, 0, Math.PI * 2);
+                ctx.stroke();
+                ctx.globalAlpha = 0.2 + Math.sin(state.time * 10) * 0.1;
+                ctx.fillStyle = '#00f2ff';
+                ctx.fill();
+                ctx.globalAlpha = 1;
+            }
+
+            if(state.difficulty > 2) {
+                const flameH = 10 + Math.random() * 20;
+                const grad = ctx.createLinearGradient(0, charH/4, 0, charH/4 + flameH);
+                grad.addColorStop(0, 'rgba(255, 51, 85, 0.6)'); grad.addColorStop(1, 'transparent');
+                ctx.fillStyle = grad;
+                ctx.beginPath(); ctx.moveTo(-charW/7, charH/4); ctx.lineTo(0, charH/4 + flameH); ctx.lineTo(charW/7, charH/4); ctx.fill();
+            }
+
+            if(img && img.complete && img.naturalWidth !== 0) {
+                if(state.nearMissActive) {
+                    ctx.shadowBlur = 20; ctx.shadowColor = '#fff';
+                } else {
+                    ctx.shadowBlur = 10; ctx.shadowColor = state.shieldTime > 0 ? '#00f2ff' : 'rgba(255, 51, 85, 0.5)';
+                }
+                ctx.drawImage(img, -charW/2, -charH/2, charW, charH);
+                ctx.globalCompositeOperation = 'screen'; ctx.globalAlpha = 0.1;
                 ctx.drawImage(img, -charW/2, -charH/2, charW, charH);
             } else {
-                ctx.fillStyle = '#ff3355'; ctx.beginPath(); ctx.roundRect(-20, -20, 40, 40, 8); ctx.fill();
+                ctx.fillStyle = '#ff3355'; ctx.beginPath(); ctx.roundRect(-16, -16, 32, 32, 5); ctx.fill();
             }
             ctx.restore();
         }
+
         window.onload = init;
     </script>
 </body>
