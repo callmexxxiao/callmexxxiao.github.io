@@ -486,12 +486,16 @@
             window.addEventListener('keydown', e => state.keys[e.code] = true);
             window.addEventListener('keyup', e => state.keys[e.code] = false);
             let touchStartX = 0;
-            canvas.addEventListener('touchstart', e => touchStartX = e.touches[0].clientX);
-            canvas.addEventListener('touchmove', e => {
-                const diff = (e.touches[0].clientX - touchStartX) / (window.innerWidth * 0.8);
-                state.playerTargetX = Math.max(0, Math.min(1, state.playerTargetX + diff));
+            canvas.addEventListener('touchstart', e => {
                 touchStartX = e.touches[0].clientX;
-            });
+            }, { passive: false });
+            canvas.addEventListener('touchmove', e => {
+                e.preventDefault();
+                const touchX = e.touches[0].clientX;
+                const diff = (touchX - touchStartX) / (config.roadWidth * 0.6); // 提高灵敏度
+                state.playerTargetX = Math.max(0, Math.min(1, state.playerTargetX + diff));
+                touchStartX = touchX;
+            }, { passive: false });
             renderLeaderboard();
         }
 
@@ -499,12 +503,18 @@
             const isPC = window.innerWidth >= 1024 && window.innerWidth > window.innerHeight;
             config.roadWidth = isPC ? 450 : Math.min(280, window.innerWidth * 0.85);
             document.documentElement.style.setProperty('--road-width', config.roadWidth + 'px');
-            if (canvas) { canvas.width = window.innerWidth; canvas.height = window.innerHeight; }
+            
+            if (canvas) {
+                const dpr = window.devicePixelRatio || 1;
+                canvas.width = window.innerWidth * dpr;
+                canvas.height = window.innerHeight * dpr;
+                canvas.style.width = window.innerWidth + 'px';
+                canvas.style.height = window.innerHeight + 'px';
+                ctx.scale(dpr, dpr);
+            }
         }
 
         function resize() {
-            canvas.width = window.innerWidth;
-            canvas.height = window.innerHeight;
             updateRoadWidth();
         }
 
